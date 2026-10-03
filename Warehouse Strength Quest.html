@@ -1,0 +1,1356 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Warehouse Strength Quest</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --bg:#f3f1ec; --bg2:#e9e6df; --card:#ffffff; --ink:#1b2233; --ink2:#4a5468; --muted:#7d8697;
+  --line:#dcd8cf; --accent:#e8621a; --accent-ink:#ffffff; --accent-soft:#fdebdf;
+  --navy:#182642; --navy-ink:#f5f2ea; --good:#1f8a4c; --warn:#c98500; --info:#2a78d6;
+  --ps:#2a78d6; --pl:#4a3aa7; --dt:#1baf7a; --ac:#eb6834; --co:#e87ba4; --pi:#008300; --ld:#eda100;
+  --shadow:0 8px 24px rgba(27,34,51,.08);
+  --radius:18px;
+  font-family:"Noto Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#141821; --bg2:#1b202b; --card:#1f2531; --ink:#eef0f4; --ink2:#c2c8d4; --muted:#8f98a8;
+    --line:#2f3745; --accent:#f27a35; --accent-ink:#161616; --accent-soft:#3a2617;
+    --navy:#0f1626; --navy-ink:#f5f2ea; --good:#3ccb7a; --warn:#e0a11f; --info:#3987e5;
+    --ps:#3987e5; --pl:#9085e9; --dt:#199e70; --ac:#d95926; --co:#d55181; --pi:#2aa02a; --ld:#c98500;
+    --shadow:0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#141821; --bg2:#1b202b; --card:#1f2531; --ink:#eef0f4; --ink2:#c2c8d4; --muted:#8f98a8;
+  --line:#2f3745; --accent:#f27a35; --accent-ink:#161616; --accent-soft:#3a2617;
+  --navy:#0f1626; --navy-ink:#f5f2ea; --good:#3ccb7a; --warn:#e0a11f; --info:#3987e5;
+  --ps:#3987e5; --pl:#9085e9; --dt:#199e70; --ac:#d95926; --co:#d55181; --pi:#2aa02a; --ld:#c98500;
+  --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Thai",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Kanit","Noto Sans Thai",sans-serif;margin:0;line-height:1.2;text-wrap:balance}
+h1{font-size:2rem;font-weight:700}
+h2{font-size:1.4rem;font-weight:600}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;background:var(--bg2);color:var(--ink);padding:.85rem 1.1rem;font-weight:600;transition:transform .08s ease,background .15s ease,opacity .15s}
+button:active{transform:scale(.98)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--info);outline-offset:2px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.btn-primary{background:var(--accent);color:var(--accent-ink);font-size:1.05rem;padding:1rem 1.3rem;width:100%;box-shadow:0 6px 16px rgba(232,98,26,.28)}
+.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink2)}
+.btn-navy{background:var(--navy);color:var(--navy-ink)}
+.btn-sm{padding:.5rem .8rem;font-size:.9rem;border-radius:10px}
+.btn-row{display:flex;gap:.6rem;flex-wrap:wrap}
+input,textarea,select{font:inherit;width:100%;padding:.85rem 1rem;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+textarea{min-height:120px;resize:vertical;line-height:1.5}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--ink2);margin-bottom:.35rem}
+.field{display:flex;flex-direction:column;gap:.1rem}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.wrap{max-width:720px;margin:0 auto;padding:1rem 16px 3rem}
+.wrap-wide{max-width:1100px}
+.card{background:var(--card);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);border:1px solid var(--line)}
+.stack{display:flex;flex-direction:column;gap:1rem}
+.stack-sm{display:flex;flex-direction:column;gap:.5rem}
+.row{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.spread{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem}
+.hidden{display:none!important}
+.pill{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .65rem;border-radius:999px;font-size:.78rem;font-weight:600;background:var(--bg2);color:var(--ink2)}
+.pill.good{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.pill.info{background:color-mix(in srgb,var(--info) 16%,transparent);color:var(--info)}
+.pill.accent{background:var(--accent-soft);color:var(--accent)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navy);color:var(--navy-ink);padding:.7rem 16px}
+.topbar .inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:"Kanit",sans-serif;font-weight:600;letter-spacing:.02em}
+.brand .box{width:28px;height:28px;border-radius:7px;background:var(--accent);display:grid;place-items:center;font-size:.95rem}
+.topbar a,.topbar button{color:var(--navy-ink)}
+.topbar .btn-ghost{border-color:rgba(255,255,255,.3)}
+
+/* hero */
+.hero{background:var(--navy);color:var(--navy-ink);border-radius:24px;padding:2rem 1.5rem;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -20% -60% auto;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(232,98,26,.45),transparent 70%);pointer-events:none}
+.hero h1{font-size:clamp(1.8rem,6vw,2.6rem);color:#fff}
+.hero p{color:rgba(245,242,234,.8);max-width:36ch}
+.rack{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:1.4rem}
+.rack span{height:10px;border-radius:3px;opacity:.9}
+
+/* progress */
+.progress{height:10px;border-radius:999px;background:var(--bg2);overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#f4a261);border-radius:999px;transition:width .5s ease}
+.mission-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.xp{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--accent)}
+
+/* options */
+.opt{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;padding:.9rem 1rem;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-weight:500;line-height:1.4}
+.opt .key{flex:0 0 34px;height:34px;border-radius:10px;background:var(--bg2);display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink2)}
+.opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.opt.on .key{background:var(--accent);color:var(--accent-ink)}
+.opt .rank{margin-left:auto;font-family:"Kanit",sans-serif;font-weight:700;color:var(--accent);font-size:1.1rem;min-width:1.4rem;text-align:right}
+.scene{background:var(--bg2);border-left:4px solid var(--accent);padding:1rem 1.1rem;border-radius:0 14px 14px 0;line-height:1.65}
+.scene ol{margin:.5rem 0 0;padding-left:1.3rem}
+.timer{font-family:"IBM Plex Mono",monospace;font-size:.9rem;color:var(--muted)}
+.timer.late{color:var(--warn)}
+
+/* role cards */
+.role{display:flex;gap:.8rem;align-items:flex-start;padding:.9rem 1rem;border-radius:14px;border:2px solid var(--line);background:var(--card);text-align:left;width:100%;color:var(--ink)}
+.role .emo{font-size:1.6rem;line-height:1}
+.role.on{border-color:var(--accent);background:var(--accent-soft)}
+.role b{font-family:"Kanit",sans-serif;font-weight:600;display:block}
+.role span{font-size:.9rem;color:var(--ink2)}
+
+/* result */
+.dim-row{display:grid;grid-template-columns:1.6rem 1fr auto;gap:.6rem;align-items:center}
+.bar{height:8px;border-radius:4px;background:var(--bg2);overflow:hidden}
+.bar > i{display:block;height:100%;border-radius:4px}
+.level{font-size:.8rem;font-weight:600;min-width:6.2rem;text-align:right;color:var(--ink2)}
+.badge{display:flex;gap:.7rem;align-items:center;padding:.75rem .9rem;border-radius:14px;background:var(--bg2)}
+.badge .emo{font-size:1.5rem}
+.badge b{display:block;font-family:"Kanit",sans-serif;font-weight:600}
+.badge span{font-size:.85rem;color:var(--ink2)}
+.quote{border-left:3px solid var(--line);padding:.4rem .9rem;color:var(--ink2);font-style:normal}
+.notice{background:var(--accent-soft);border-radius:14px;padding:.9rem 1rem;font-size:.92rem;color:var(--ink)}
+.ai-tag{font-size:.75rem;color:var(--muted);display:inline-flex;gap:.3rem;align-items:center}
+
+/* management */
+.tabs{display:flex;gap:.3rem;overflow-x:auto;padding-bottom:.2rem;scrollbar-width:none}
+.tabs button{white-space:nowrap;border-radius:999px;padding:.55rem 1rem;font-size:.92rem;background:transparent;color:var(--ink2);border:1.5px solid transparent}
+.tabs button.on{background:var(--card);border-color:var(--line);color:var(--ink);box-shadow:var(--shadow)}
+.stat{padding:1rem 1.1rem;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.stat .n{font-family:"Kanit",sans-serif;font-size:1.9rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:.8rem;color:var(--muted);margin-top:.3rem}
+.plist{display:flex;flex-direction:column;gap:.5rem}
+.prow{display:flex;align-items:center;gap:.8rem;padding:.75rem .9rem;border-radius:14px;background:var(--card);border:1px solid var(--line);width:100%;text-align:left;color:var(--ink);font-weight:500}
+.prow .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.prow .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot.playing{background:var(--warn)} .dot.finished{background:var(--info)} .dot.online{background:var(--good)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{padding:.55rem .6rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tablewrap{overflow-x:auto}
+.heat td.c{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.82rem;border-radius:6px}
+.legend{display:flex;gap:.9rem;flex-wrap:wrap;font-size:.82rem;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.35rem;vertical-align:middle}
+.tmap{width:100%;max-width:100%;aspect-ratio:1;display:block}
+.code-big{font-family:"IBM Plex Mono",monospace;font-size:2rem;letter-spacing:.12em;font-weight:600;color:var(--accent)}
+.qr{background:#fff;padding:10px;border-radius:12px;display:inline-block;line-height:0}
+.qr img,.qr canvas{display:block}
+.toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy);color:var(--navy-ink);padding:.7rem 1.1rem;border-radius:12px;font-size:.92rem;box-shadow:var(--shadow);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pop{animation:pop .45s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+details summary{cursor:pointer;font-weight:600;color:var(--ink2)}
+.ans-block{border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem}
+.ans-block h4{font-family:"Kanit",sans-serif;font-weight:600;font-size:.95rem;margin-bottom:.35rem}
+@media (max-width:480px){ .wrap{padding-top:.6rem} .hero{padding:1.5rem 1.2rem} .dim-row{grid-template-columns:1.4rem 1fr} .level{grid-column:2;text-align:left;min-width:0} }
+</style>
+<div class="topbar">
+  <div class="inner">
+    <a href="#home" class="brand" style="text-decoration:none" id="brandLink"><span class="box">📦</span><span>Warehouse Strength Quest</span></a>
+    <div class="row" style="gap:.4rem">
+      <span class="pill" id="netPill" title="สถานะการเชื่อมต่อฐานข้อมูล">● กำลังเชื่อมต่อ</span>
+      <button class="btn-ghost btn-sm" id="navMgmt">Management</button>
+    </div>
+  </div>
+</div>
+<main id="app" class="wrap"></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ===================== Content & Engine ===================== */
+const DIMS = [
+  { key:'ps', name:'Problem Solving', th:'นักแก้ปัญหา', emo:'🧠', desc:'ค้นหาสาเหตุและหาวิธีแก้ปัญหา' },
+  { key:'pl', name:'Planning', th:'นักวางแผน', emo:'📋', desc:'จัดลำดับความสำคัญและวางแผน' },
+  { key:'dt', name:'Detail & Accuracy', th:'ละเอียดแม่นยำ', emo:'🔍', desc:'ตรวจสอบข้อมูลและหาความผิดพลาด' },
+  { key:'ac', name:'Action Orientation', th:'ลงมือเร็ว', emo:'⚡', desc:'ลงมือและจัดการสถานการณ์เฉพาะหน้า' },
+  { key:'co', name:'Coordination', th:'นักประสานงาน', emo:'🤝', desc:'ประสานงานและทำให้คนทำงานร่วมกัน' },
+  { key:'pi', name:'Process Improvement', th:'นักปรับปรุงกระบวนการ', emo:'🛠️', desc:'มองหาโอกาสทำให้ระบบดีขึ้น' },
+  { key:'ld', name:'Leadership', th:'ผู้นำและการตัดสินใจ', emo:'👑', desc:'จัดคน แบ่งงาน และตัดสินใจภายใต้แรงกดดัน' },
+];
+const DIM = Object.fromEntries(DIMS.map(d => [d.key, d]));
+const LEVELS = [
+  { min:70, key:'very', th:'Very Strong', color:'good' },
+  { min:50, key:'strong', th:'Strong', color:'info' },
+  { min:30, key:'moderate', th:'Moderate', color:'warn' },
+  { min:0,  key:'emerging', th:'Emerging', color:'' },
+];
+const levelOf = v => LEVELS.find(l => v >= l.min);
+
+const MISSIONS = [
+  { id:'m1', code:'MISSION 1', title:'PRIORITY CRISIS', emo:'🚨', time:120,
+    scene:`วันนี้ออเดอร์เข้ามากกว่าปกติ 40% และมีปัญหาเกิดขึ้นพร้อมกัน 5 เรื่อง`,
+    list:['พนักงานขาด 2 คน','สินค้า SKU สำคัญหาไม่เจอ','มีออเดอร์เร่งด่วน 20 รายการ','พื้นที่ Packing เริ่มเต็ม','รถขนส่งจะมารับของเร็วขึ้น 30 นาที'],
+    tail:'คุณเป็นคนที่ต้องช่วยจัดการสถานการณ์นี้',
+    type:'rank3', question:'เลือก 3 สิ่งที่ต้องทำก่อน และจัดลำดับ 1–3 (กดตามลำดับ)',
+    options:{ A:'ไปหาสินค้า SKU ที่หาไม่เจอ', B:'จัดคนใหม่ตามความเร่งด่วน', C:'เคลียร์พื้นที่ Packing', D:'ตรวจสอบออเดอร์เร่งด่วน', E:'ติดต่อทีมขนส่ง', F:'ลงไปช่วย Packing ทันที' },
+    free:'ทำไมคุณจึงเลือกสิ่งนี้เป็นอันดับแรก?',
+    weights:{ A:{ps:2,dt:1}, B:{pl:2,ld:2,co:1}, C:{ac:2,pl:1}, D:{pl:2,dt:2}, E:{co:3,ld:1}, F:{ac:3} } },
+  { id:'m2', code:'MISSION 2', title:'THE MISSING SKU', emo:'🔎', time:90,
+    scene:`ระบบแจ้งว่า SKU A102 มีสินค้าเหลือ 12 ชิ้น แต่พนักงานหยิบของกลับหาไม่เจอ`,
+    list:['System Stock = 12','Location = B-04','พนักงานกะก่อนหน้าบอกว่าอาจมีการย้ายสินค้า','มีลูกค้า 3 ออเดอร์กำลังรอ SKU นี้'],
+    type:'first2', question:'คุณจะทำอะไรเป็นอย่างแรก?', question2:'คุณจะตรวจสอบอะไรต่อเป็นอันดับที่ 2?',
+    options:{ A:'เดินไปค้น B-04', B:'เช็ก Stock Movement ในระบบ', C:'ถามพนักงานกะก่อนหน้า', D:'ตรวจสอบ Location อื่น', E:'แจ้ง Management ว่าสินค้าหาย' },
+    free:'อธิบายเหตุผลของคุณ',
+    weights:{ A:{ac:2,dt:1}, B:{ps:2,dt:2,pi:1}, C:{co:2,ps:1}, D:{dt:2,ac:1}, E:{co:1,ld:1} } },
+  { id:'m3', code:'MISSION 3', title:'LEADERSHIP UNDER PRESSURE', emo:'👑', time:90,
+    scene:`Management ออกไปจัดการเรื่องรถขนส่งประมาณ 15 นาที ในช่วงนั้นออเดอร์ล็อตใหญ่ต้องส่งออก สมาชิกในทีมเริ่มถามว่า "เราควรทำอะไรก่อน?"`,
+    type:'single', question:'คุณจะทำอย่างไร?',
+    options:{ A:'รอ Management กลับมา', B:'แบ่งงานให้ทีมทันที', C:'ตรวจสอบสถานการณ์ก่อนแล้วจึงตัดสินใจ', D:'ลงมือทำงานของตัวเองก่อน', E:'เรียกทีมคุยสั้น ๆ แล้วกำหนดแผน' },
+    free:'ถ้าสมาชิกในทีมไม่เห็นด้วยกับแผนของคุณ คุณจะทำอย่างไร?',
+    weights:{ A:{dt:1}, B:{ld:3,ac:2}, C:{ps:2,pl:2,ld:1}, D:{ac:2}, E:{ld:3,co:2,pl:1} } },
+  { id:'m4', code:'MISSION 4', title:'REPEATED ERROR', emo:'🔁', time:90,
+    scene:`ในช่วง 2 สัปดาห์ที่ผ่านมา ทีม Packing แพ็กผิด SKU จำนวน 7 ครั้ง ทุกครั้งสามารถแก้ไขได้ แต่ทำให้เสียเวลาและมีต้นทุนเพิ่มขึ้น`,
+    type:'multi2', question:'คุณจะจัดการปัญหานี้อย่างไร? (เลือกได้สูงสุด 2 ข้อ)',
+    options:{ A:'เตือนคนที่ทำผิด', B:'เพิ่มขั้นตอนตรวจสอบ', C:'วิเคราะห์ว่าความผิดพลาดเกิดขึ้นตรงไหน', D:'เปลี่ยนวิธีจัดวางสินค้า', E:'คุยกับทีมเพื่อหาสาเหตุ', F:'ทดลองวิธีใหม่แล้ววัดผล' },
+    free:'ถ้าคุณมีเวลาแก้ปัญหานี้เพียง 1 วัน คุณจะเริ่มจากอะไร?',
+    weights:{ A:{ld:1}, B:{dt:2,pi:1}, C:{ps:3,dt:1}, D:{pi:2,ps:1}, E:{co:3,ps:1}, F:{pi:3,ps:1} } },
+  { id:'m5', code:'MISSION 5', title:'FIND YOUR ROLE', emo:'🧭', time:0,
+    scene:`อ่านบทบาททั้ง 7 แบบ แล้วเลือกบทบาทที่ใกล้เคียงตัวคุณที่สุด 2 บทบาท`,
+    type:'roles2', question:'ถ้าคุณต้องเลือกบทบาทที่ใกล้เคียงตัวคุณที่สุด 2 บทบาท คุณจะเลือกอะไร?',
+    roles:[
+      { key:'ps', emo:'🧠', name:'Problem Solver', desc:'ชอบค้นหาสาเหตุและหาวิธีแก้ปัญหา' },
+      { key:'pl', emo:'📋', name:'Planner', desc:'ชอบจัดลำดับงานและวางแผน' },
+      { key:'dt', emo:'🔍', name:'Detail Detective', desc:'ชอบตรวจสอบข้อมูลและหาความผิดพลาด' },
+      { key:'ac', emo:'⚡', name:'Action Taker', desc:'ชอบลงมือและจัดการสถานการณ์เฉพาะหน้า' },
+      { key:'co', emo:'🤝', name:'Connector', desc:'ชอบประสานงานและทำให้คนทำงานร่วมกัน' },
+      { key:'pi', emo:'🛠️', name:'Process Improver', desc:'ชอบคิดว่าระบบและกระบวนการจะดีขึ้นได้อย่างไร' },
+      { key:'ld', emo:'👑', name:'Coordinator', desc:'ชอบจัดคน แบ่งงาน และตัดสินใจในสถานการณ์ที่มีความกดดัน' },
+    ],
+    free:'เพราะอะไร?' },
+];
+const MISSION = Object.fromEntries(MISSIONS.map(m => [m.id, m]));
+const XP_PER_MISSION = 120;
+
+/* ---- Rule-based free-text pattern analysis (fallback when AI is unavailable) ---- */
+const TRAITS = [
+  { key:'reasoning', th:'การคิดเชิงเหตุผล', dims:{ps:1,pl:.5}, re:/เพราะ|เนื่องจาก|ดังนั้น|จึง|เหตุผล|because|since|therefore|so that/i },
+  { key:'root_cause', th:'การมองต้นเหตุ', dims:{ps:1.5,pi:.5}, re:/สาเหตุ|ต้นเหตุ|ต้นตอ|ทำไม|เกิดจาก|root|cause|why/i },
+  { key:'priority', th:'การจัดลำดับความสำคัญ', dims:{pl:1.5}, re:/ก่อน|ลำดับ|สำคัญ|เร่งด่วน|ด่วน|อันดับ|priorit|first|urgent/i },
+  { key:'risk', th:'การมองความเสี่ยง', dims:{pl:.5,dt:1}, re:/เสี่ยง|ป้องกัน|กระทบ|เสียหาย|ผิดพลาด|พลาด|ถ้า.*จะ|risk|prevent|impact/i },
+  { key:'communication', th:'การสื่อสาร', dims:{co:1.5}, re:/คุย|บอก|แจ้ง|สื่อสาร|ฟัง|อธิบาย|ถาม|ประสาน|แลกเปลี่ยน|talk|tell|inform|listen|explain|ask/i },
+  { key:'systems', th:'การคิดเชิงระบบ', dims:{pi:1,dt:.5}, re:/กระบวนการ|ขั้นตอน|ระบบ|มาตรฐาน|flow|process|system|standard|sop/i },
+  { key:'pressure_decision', th:'การตัดสินใจภายใต้แรงกดดัน', dims:{ld:1,ac:1}, re:/ตัดสินใจ|ทันที|เร็ว|ลงมือ|จัดการ|รับผิดชอบ|decide|immediat|quick|fast|take charge/i },
+  { key:'people', th:'การคำนึงถึงคนอื่น', dims:{co:1,ld:.5}, re:/ทีม|เพื่อน|คนอื่น|ช่วย|ร่วม|ลูกค้า|ทุกคน|team|help|together|customer|everyone/i },
+  { key:'improvement', th:'การคิดเชิงปรับปรุง', dims:{pi:1.5}, re:/ปรับปรุง|พัฒนา|ทดลอง|วัดผล|ดีขึ้น|ลด(?:เวลา|ปัญหา|ต้นทุน)|ไม่ให้เกิดซ้ำ|ซ้ำ|improve|measure|test|reduce|better/i },
+  { key:'data', th:'การใช้ข้อมูล', dims:{dt:1,ps:.5}, re:/ข้อมูล|เช็ก|เช็ค|ตรวจ|ประวัติ|บันทึก|stock|data|check|verify|record|movement/i },
+];
+const traitLevelTh = n => n >= 3 ? 'สูง' : n >= 1 ? 'ปานกลาง' : 'ต่ำ';
+
+function analyzeTextRules(texts) {
+  const joined = texts.filter(Boolean).join(' \n ');
+  const traits = {};
+  const dimBoost = {};
+  TRAITS.forEach(t => {
+    let hits = 0;
+    texts.forEach(tx => { if (tx && t.re.test(tx)) hits++; });
+    // also count multiple distinct matches in the joined text
+    const global = new RegExp(t.re.source, 'gi');
+    const all = (joined.match(global) || []).length;
+    const score = Math.min(4, hits + Math.floor(all / 3));
+    traits[t.key] = score;
+    if (score > 0) Object.entries(t.dims).forEach(([d, w]) => { dimBoost[d] = (dimBoost[d] || 0) + w * Math.min(score, 3); });
+  });
+  return { traits, dimBoost, totalChars: joined.replace(/\s/g, '').length };
+}
+
+/* ---- Scoring ---- */
+function scoreAnswers(answers) {
+  const raw = Object.fromEntries(DIMS.map(d => [d.key, 0]));
+  const add = (w, mult = 1) => { if (!w) return; Object.entries(w).forEach(([k, v]) => raw[k] += v * mult); };
+  const a1 = answers.m1, a2 = answers.m2, a3 = answers.m3, a4 = answers.m4, a5 = answers.m5;
+  if (a1?.ranking) a1.ranking.forEach((opt, i) => add(MISSION.m1.weights[opt], [3, 2, 1][i] || 1));
+  if (a2?.first) add(MISSION.m2.weights[a2.first], 2);
+  if (a2?.second) add(MISSION.m2.weights[a2.second], 1);
+  if (a3?.choice) add(MISSION.m3.weights[a3.choice], 3);
+  if (a4?.choices) a4.choices.forEach(c => add(MISSION.m4.weights[c], 2));
+  if (a5?.roles) a5.roles.forEach(r => raw[r] += 4);
+
+  // response time signal (seconds)
+  const rts = ['m1', 'm2', 'm3', 'm4'].map(k => answers[k]?.responseTime).filter(v => typeof v === 'number');
+  const median = rts.length ? rts.slice().sort((a, b) => a - b)[Math.floor(rts.length / 2)] : null;
+  if (median !== null) {
+    if (median < 20) { raw.ac += 2; raw.ld += .5; }
+    else if (median > 60) { raw.dt += 1.5; raw.ps += 1; raw.pl += .5; }
+  }
+  // free-text rule signal (scaled down so choices remain primary)
+  const texts = ['m1', 'm2', 'm3', 'm4', 'm5'].map(k => answers[k]?.text || '');
+  const tx = analyzeTextRules(texts);
+  Object.entries(tx.dimBoost).forEach(([k, v]) => raw[k] += v * .6);
+
+  // consistency: same dim leading in >=3 missions
+  const leaders = ['m1', 'm2', 'm3', 'm4'].map(k => {
+    const m = MISSION[k]; let w = null;
+    if (k === 'm1') w = MISSION.m1.weights[a1?.ranking?.[0]];
+    if (k === 'm2') w = MISSION.m2.weights[a2?.first];
+    if (k === 'm3') w = MISSION.m3.weights[a3?.choice];
+    if (k === 'm4') w = MISSION.m4.weights[a4?.choices?.[0]];
+    if (!w) return null;
+    return Object.entries(w).sort((x, y) => y[1] - x[1])[0][0];
+  }).filter(Boolean);
+  const freq = {};
+  leaders.forEach(l => freq[l] = (freq[l] || 0) + 1);
+  Object.entries(freq).forEach(([k, n]) => { if (n >= 3) raw[k] += 2; });
+
+  // normalise 0-100 against a practical maximum per dimension
+  const MAX = { ps: 38, pl: 32, dt: 34, ac: 38, co: 38, pi: 30, ld: 32 };
+  const scores = {};
+  DIMS.forEach(d => scores[d.key] = Math.max(0, Math.min(100, Math.round(raw[d.key] / MAX[d.key] * 100))));
+  return { scores, raw, median, textRules: tx };
+}
+
+const STYLES = [
+  { dims:['ps','dt'], name:'Analytical Problem Solver', th:'คุณมีแนวโน้มชอบทำความเข้าใจสถานการณ์ก่อนตัดสินใจ และมักมองหาวิธีแก้ที่ลดโอกาสเกิดปัญหาซ้ำ' },
+  { dims:['ps','pi'], name:'Systems Improver', th:'คุณมองปัญหาเป็นระบบ และมักถามว่าจะปรับกระบวนการอย่างไรให้ปัญหาไม่กลับมาอีก' },
+  { dims:['pl','ld'], name:'Strategic Coordinator', th:'คุณชอบมองภาพรวม จัดลำดับงาน และพร้อมตัดสินใจเมื่อทีมต้องการทิศทาง' },
+  { dims:['ac','ld'], name:'Decisive Driver', th:'คุณลงมือเร็วและกล้าตัดสินใจ ทีมมักพึ่งพาคุณในสถานการณ์เร่งด่วน' },
+  { dims:['co','ld'], name:'People-first Leader', th:'คุณนำทีมผ่านการสื่อสารและการฟัง และให้ความสำคัญกับการที่ทุกคนเห็นภาพเดียวกัน' },
+  { dims:['co','ac'], name:'Hands-on Connector', th:'คุณลงไปช่วยหน้างานพร้อมกับประสานคนรอบตัวให้เคลื่อนไปด้วยกัน' },
+  { dims:['dt','pi'], name:'Quality Architect', th:'คุณใส่ใจความถูกต้องและมองเห็นจุดที่ควรเพิ่มการตรวจสอบหรือปรับขั้นตอน' },
+  { dims:['pl','dt'], name:'Careful Planner', th:'คุณวางแผนอย่างละเอียด ตรวจสอบข้อมูลก่อน และลดความเสี่ยงล่วงหน้า' },
+  { dims:['ps','co'], name:'Collaborative Solver', th:'คุณแก้ปัญหาโดยดึงข้อมูลจากคนรอบตัว และเชื่อว่าคำตอบที่ดีมาจากการคุยกัน' },
+  { dims:['ac','dt'], name:'Reliable Executor', th:'คุณลงมือเร็วแต่ไม่ทิ้งความแม่นยำ เป็นคนที่งานหน้างานพึ่งพาได้' },
+  { dims:['pl','ac'], name:'Agile Organizer', th:'คุณจัดลำดับเร็วและเริ่มทำทันที ปรับแผนตามสถานการณ์ได้ดี' },
+  { dims:['ps','pl'], name:'Strategic Analyst', th:'คุณชอบทำความเข้าใจปัญหาและวางลำดับการแก้อย่างเป็นขั้นตอน มองทั้งสาเหตุและภาพรวมพร้อมกัน' },
+  { dims:['pi','ld'], name:'Change Leader', th:'คุณมองเห็นว่าระบบควรดีขึ้นตรงไหน และกล้าตัดสินใจนำทีมทดลองวิธีใหม่' },
+  { dims:['pi','co'], name:'Team Process Builder', th:'คุณชวนทีมมาช่วยกันปรับปรุงวิธีทำงาน มากกว่าจะสั่งเปลี่ยนจากบนลงล่าง' },
+];
+function pickStyle(scores) {
+  const sorted = DIMS.map(d => d.key).sort((a, b) => scores[b] - scores[a]);
+  const top2 = sorted.slice(0, 2);
+  const hit = STYLES.find(s => s.dims.every(d => top2.includes(d)));
+  if (hit) return { ...hit, top: sorted };
+  const a = DIM[top2[0]], b = DIM[top2[1]];
+  return { dims: top2, name: `${a.name.split(' ')[0]} × ${b.name.split(' ')[0]}`, th: `คุณผสมจุดแข็งด้าน${a.th}เข้ากับ${b.th} ทำให้มองสถานการณ์ได้ทั้งสองมุม`, top: sorted };
+}
+
+function buildObservations(answers, scores, tx) {
+  const obs = [];
+  const a1 = answers.m1, a2 = answers.m2, a3 = answers.m3, a4 = answers.m4;
+  if (a2?.first === 'B') obs.push('คุณมีแนวโน้มที่จะค้นหาข้อมูลและสาเหตุก่อนลงมือแก้ปัญหา');
+  else if (a2?.first === 'A' || a2?.first === 'D') obs.push('เมื่อของหาย คุณเลือกลงพื้นที่ไปตรวจสอบด้วยตัวเองก่อน');
+  else if (a2?.first === 'C') obs.push('คุณใช้คนรอบตัวเป็นแหล่งข้อมูลแรกเมื่อสถานการณ์ไม่ชัดเจน');
+  if (a1?.ranking?.[0] === 'D' || a1?.ranking?.[0] === 'B') obs.push('เมื่อเกิดเหตุการณ์เร่งด่วน คุณมักให้ความสำคัญกับการจัดลำดับงาน');
+  else if (a1?.ranking?.[0] === 'F' || a1?.ranking?.[0] === 'C') obs.push('เมื่อเกิดเหตุการณ์เร่งด่วน คุณเลือกลงมือทำสิ่งที่เห็นผลทันทีก่อน');
+  else if (a1?.ranking?.[0] === 'E') obs.push('คุณมองเห็นว่าการประสานงานกับภายนอกเป็นตัวปลดล็อกสถานการณ์');
+  if (a3?.choice === 'E' || a3?.choice === 'B') obs.push('เมื่อไม่มีหัวหน้าอยู่ คุณพร้อมก้าวออกมาจัดทีมและกำหนดทิศทาง');
+  else if (a3?.choice === 'C') obs.push('คุณเลือกประเมินสถานการณ์ก่อนตัดสินใจ แม้ในภาวะกดดัน');
+  if (a4?.choices?.includes('F') || a4?.choices?.includes('D')) obs.push('คุณมองปัญหาที่เกิดซ้ำเป็นโอกาสในการปรับกระบวนการ ไม่ใช่ความผิดของบุคคล');
+  else if (a4?.choices?.includes('E')) obs.push('คุณเชื่อว่าการคุยกับทีมเป็นทางลัดสู่สาเหตุที่แท้จริง');
+  if (tx?.traits?.risk >= 2) obs.push('ในเหตุผลที่คุณเขียน คุณมักมองผลกระทบและความเสี่ยงล่วงหน้า');
+  return obs.slice(0, 3);
+}
+
+function buildDevQuestion(scores) {
+  const sorted = DIMS.map(d => d.key).sort((a, b) => scores[a] - scores[b]);
+  const low = sorted[0];
+  const q = {
+    ps: 'ถ้าคุณต้องหาสาเหตุของปัญหาที่เกิดซ้ำโดยไม่มีใครบอกคำตอบ คุณจะเริ่มถามจากอะไร?',
+    pl: 'ถ้าวันหนึ่งมีงานเข้ามาพร้อมกัน 10 อย่าง คุณจะใช้เกณฑ์อะไรตัดสินว่าอะไรควรทำก่อน?',
+    dt: 'มีจุดไหนในงานประจำวันที่คุณอยากเพิ่มการตรวจสอบเพื่อลดความผิดพลาด?',
+    ac: 'ถ้าคุณต้องทำงานที่ต้องตัดสินใจเร็วขึ้น คุณคิดว่าคุณต้องพัฒนาอะไร?',
+    co: 'ใครในทีมที่คุณควรสื่อสารด้วยบ่อยขึ้น เพื่อให้งานราบรื่นกว่าเดิม?',
+    pi: 'ขั้นตอนไหนในงานของคุณที่ทำซ้ำ ๆ แล้วรู้สึกว่า "น่าจะมีวิธีที่ดีกว่านี้"?',
+    ld: 'ถ้าทีมหันมาถามคุณว่า "ควรทำอะไรก่อน" คุณอยากมีอะไรพร้อมอยู่ในมือเพื่อตอบได้อย่างมั่นใจ?',
+  };
+  return { dim: low, question: q[low] };
+}
+
+const ACHIEVEMENTS = [
+  { key:'root', emo:'🔎', name:'Root Cause Hunter', th:'คุณชอบค้นหาสาเหตุของปัญหา', test:(s, a, m) => s.ps >= 50 || a.m2?.first === 'B' || a.m4?.choices?.includes('C') },
+  { key:'quick', emo:'⚡', name:'Quick Responder', th:'คุณมีแนวโน้มตัดสินใจและลงมือเร็ว', test:(s, a, m) => (m !== null && m < 25) || s.ac >= 50 },
+  { key:'process', emo:'🛠️', name:'Process Architect', th:'คุณมองเห็นโอกาสในการปรับปรุงระบบ', test:(s, a) => s.pi >= 50 || a.m4?.choices?.includes('F') },
+  { key:'connector', emo:'🤝', name:'Team Connector', th:'คุณให้ความสำคัญกับการประสานงาน', test:(s, a) => s.co >= 50 || a.m4?.choices?.includes('E') },
+  { key:'planner', emo:'📋', name:'Calm Planner', th:'คุณจัดลำดับความสำคัญได้แม้ในภาวะวุ่นวาย', test:(s, a) => s.pl >= 50 },
+  { key:'eagle', emo:'🦅', name:'Eagle Eye', th:'คุณใส่ใจรายละเอียดและความถูกต้อง', test:(s) => s.dt >= 50 },
+  { key:'leader', emo:'👑', name:'Steady Leader', th:'คุณพร้อมนำทีมเมื่อสถานการณ์ต้องการ', test:(s, a) => s.ld >= 50 || ['B', 'E'].includes(a.m3?.choice) },
+  { key:'story', emo:'✍️', name:'Storyteller', th:'คุณอธิบายเหตุผลของตัวเองได้ชัดเจน', test:(s, a, m, tx) => (tx?.totalChars || 0) >= 200 },
+  { key:'complete', emo:'🏁', name:'Mission Complete', th:'คุณผ่านครบทั้ง 5 ด่าน', test:() => true },
+];
+
+function buildProfile(answers) {
+  const { scores, median, textRules } = scoreAnswers(answers);
+  const style = pickStyle(scores);
+  const levels = Object.fromEntries(DIMS.map(d => [d.key, levelOf(scores[d.key]).key]));
+  let achievements = ACHIEVEMENTS.filter(x => { try { return x.test(scores, answers, median, textRules); } catch (e) { return false; } }).map(x => x.key);
+  if (achievements.length > 5) achievements = [...achievements.filter(k => k !== 'complete').slice(0, 4), 'complete'];
+  return {
+    scores, levels, style: { name: style.name, th: style.th, dims: style.dims },
+    observations: buildObservations(answers, scores, textRules),
+    dev: buildDevQuestion(scores),
+    achievements, medianResponse: median,
+    traits: textRules.traits,
+    xp: Object.keys(answers).length * XP_PER_MISSION + achievements.length * 30,
+  };
+}
+
+/* ---- Rule-based AI-style summary (fallback) ---- */
+function rulesSummary(answers, profile) {
+  const top = DIMS.map(d => d.key).sort((a, b) => profile.scores[b] - profile.scores[a]);
+  const t = profile.traits || {};
+  const strongTraits = TRAITS.filter(x => (t[x.key] || 0) >= 2).map(x => x.th);
+  const parts = [];
+  parts.push(`ผู้เล่นคนนี้มีแนวโน้มเด่นด้าน${DIM[top[0]].th} และ${DIM[top[1]].th}`);
+  if (strongTraits.length) parts.push(`จากเหตุผลที่เขียน พบรูปแบบ${strongTraits.slice(0, 3).join(', ')}`);
+  if (profile.medianResponse !== null) parts.push(profile.medianResponse < 25 ? 'ตอบสนองต่อสถานการณ์ค่อนข้างเร็ว' : profile.medianResponse > 60 ? 'ใช้เวลาไตร่ตรองก่อนตอบ' : 'ใช้เวลาตัดสินใจในระดับปานกลาง');
+  return {
+    source: 'rules',
+    summary: parts.join(' · '),
+    traitLevels: Object.fromEntries(TRAITS.map(x => [x.key, traitLevelTh(t[x.key] || 0)])),
+    strengths: top.slice(0, 3).map(k => DIM[k].name),
+    develop: top.slice(-2).map(k => DIM[k].name),
+    keyQuotes: ['m1', 'm2', 'm3', 'm4', 'm5'].map(k => answers[k]?.text).filter(x => x && x.length > 12).slice(0, 2),
+    observations: profile.observations,
+    devQuestion: profile.dev.question,
+  };
+}
+/* ===================== Runtime, store, router ===================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const app = $('#app');
+const nowIso = () => new Date().toISOString();
+const fmtTime = iso => iso ? new Date(iso).toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' }) : '-';
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600); }
+const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
+const lsDel = k => { try { localStorage.removeItem(k); } catch (e) { } };
+const randCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = 'WH-'; for (let i = 0; i < 5; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
+const baseUrl = () => location.href.split('#')[0];
+
+const CAP = { db: null, user: null, sample: null, downloads: null, uid: null, canEdit: false, isOwner: false, ready: false, mode: 'connecting' };
+
+/* ---- Memory store (demo / offline) ---- */
+const MEM = { docs: new Map(), subs: [] };
+function memNotify() { MEM.subs.forEach(s => { try { s.cb(memList(s.coll)); } catch (e) { } }); }
+function memList(coll) { const out = []; MEM.docs.forEach((v, k) => { const i = k.lastIndexOf('/'); if (k.slice(0, i) === coll) out.push({ id: k.slice(i + 1), data: v }); }); return out; }
+
+const Store = {
+  real() { return !!CAP.db; },
+  async get(path) {
+    if (CAP.db) { const s = await CAP.db.doc(path).get(); return s.exists ? s.data() : null; }
+    return MEM.docs.get(path) || null;
+  },
+  async set(path, data) {
+    if (CAP.db) { await CAP.db.doc(path).set(data); return; }
+    MEM.docs.set(path, JSON.parse(JSON.stringify(data))); memNotify();
+  },
+  async list(coll) {
+    if (CAP.db) { const s = await CAP.db.collection(coll).get(); return s.docs.map(d => ({ id: d.id, data: d.data() })); }
+    return memList(coll);
+  },
+  onList(coll, cb) {
+    if (CAP.db) { return CAP.db.collection(coll).onSnapshot(s => cb(s.docs.map(d => ({ id: d.id, data: d.data() }))), e => console.warn('snapshot', e)); }
+    const sub = { coll, cb }; MEM.subs.push(sub); setTimeout(() => cb(memList(coll)), 0);
+    return () => { MEM.subs = MEM.subs.filter(x => x !== sub); };
+  },
+};
+
+function setNet(mode) {
+  CAP.mode = mode;
+  const p = $('#netPill');
+  const map = { connecting: ['● กำลังเชื่อมต่อ', ''], live: ['● Live', 'good'], demo: ['● Demo mode', 'warn'] };
+  const [t, c] = map[mode]; p.textContent = t; p.className = 'pill ' + c;
+  p.title = mode === 'demo' ? 'ไม่พบฐานข้อมูลกลางในมุมมองนี้ ข้อมูลจะไม่ถูกบันทึกถาวร' : 'เชื่อมต่อฐานข้อมูลกลางแล้ว';
+}
+
+async function bootCaps() {
+  if (!window.claude?.use) { seedDemoIntoMemory(); setNet('demo'); CAP.ready = true; return; }
+  const [db, user, sample, downloads] = await Promise.all(['db', 'user', 'sample', 'downloads'].map(n => window.claude.use(n).catch(() => null)));
+  CAP.db = db; CAP.user = user; CAP.sample = sample; CAP.downloads = downloads;
+  if (user) {
+    try { CAP.uid = await user.id(); } catch (e) { }
+    try { CAP.canEdit = await user.canEdit(); } catch (e) { }
+    try { CAP.isOwner = await user.isOwner(); } catch (e) { }
+  }
+  if (db) setNet('live'); else { seedDemoIntoMemory(); setNet('demo'); }
+  CAP.ready = true;
+}
+
+/* ---- Router ---- */
+let unsubs = [];
+function cleanup() { unsubs.forEach(u => { try { u(); } catch (e) { } }); unsubs = []; if (Game.timer) { clearInterval(Game.timer); Game.timer = null; } }
+function go(hash) { if (location.hash === '#' + hash) route(); else location.hash = hash; }
+function route() {
+  cleanup();
+  const h = (location.hash || '#home').slice(1);
+  window.scrollTo(0, 0);
+  if (h === 'home') return viewLanding();
+  if (h.startsWith('join')) return viewJoin(h.split('-').slice(1).join('-'));
+  if (h === 'play') return viewGame();
+  if (h === 'result') return viewResult();
+  if (h === 'manage') return viewManage();
+  if (h.startsWith('dash~')) return viewDash(h.slice(5));
+  viewLanding();
+}
+window.addEventListener('hashchange', route);
+$('#navMgmt').addEventListener('click', () => go('manage'));
+$('#brandLink').addEventListener('click', e => { e.preventDefault(); go('home'); });
+
+function render(html) { app.innerHTML = `<div class="fade stack">${html}</div>`; }
+function waitCaps() { return CAP.ready ? Promise.resolve() : new Promise(r => { const i = setInterval(() => { if (CAP.ready) { clearInterval(i); r(); } }, 100); }); }
+
+/* ===================== Landing ===================== */
+function viewLanding() {
+  const saved = lsGet('wsq_run');
+  render(`
+  <section class="hero">
+    <p class="eyebrow" style="color:rgba(255,255,255,.6)">PEN K · Online Warehouse Team</p>
+    <h1>Warehouse Strength Quest</h1>
+    <p style="margin-top:.6rem">ภารกิจจำลอง 5 ด่านจากงานคลังสินค้าจริง เพื่อค้นพบจุดแข็ง วิธีคิด และสไตล์การทำงานของคุณ</p>
+    <div class="rack" aria-hidden="true">${DIMS.map(d => `<span style="background:var(--${d.key})"></span>`).join('')}</div>
+  </section>
+  <section class="card stack">
+    <div><p class="eyebrow">สำหรับพนักงาน</p><h2>เข้าร่วมเกม</h2></div>
+    <p class="muted small">กรอกรหัส Session ที่ได้จากหัวหน้าทีม หรือสแกน QR Code</p>
+    <button class="btn-primary" id="goJoin">🎮 Join Game</button>
+    ${saved ? `<button class="btn-ghost" id="resume">▶ เล่นต่อ · ${esc(saved.name)} · ${esc(saved.code)}</button>` : ''}
+  </section>
+  <section class="grid2">
+    ${DIMS.map(d => `<div class="stat" style="border-left:4px solid var(--${d.key})"><div style="font-size:1.4rem">${d.emo}</div><b>${d.name}</b><div class="l">${d.desc}</div></div>`).join('')}
+  </section>
+  <section class="notice">เกมนี้มีวัตถุประสงค์เพื่อช่วยให้คุณสำรวจจุดแข็งและรูปแบบการทำงานของตัวเอง ไม่ใช่การสอบหรือการประเมินคุณค่าของคุณ ผลลัพธ์แสดงเป็น "แนวโน้ม" และไม่มีการจัดอันดับ</section>
+  <p class="small muted" style="text-align:center">Management? <a href="#manage" style="color:var(--accent)">เข้าสู่ Dashboard</a></p>`);
+  $('#goJoin').onclick = () => go('join');
+  $('#resume')?.addEventListener('click', () => go('play'));
+}
+
+/* ===================== Join ===================== */
+function viewJoin(prefill = '') {
+  const saved = lsGet('wsq_run');
+  render(`
+  <section class="card stack">
+    <div><p class="eyebrow">Join Game</p><h2>เข้าห้องเกม</h2></div>
+    <div class="field"><label for="jCode">รหัส Session</label><input id="jCode" class="mono" placeholder="เช่น WH-7K2PQ" autocapitalize="characters" value="${esc(prefill || saved?.code || '')}"></div>
+    <div class="field"><label for="jName">ชื่อ / ชื่อเล่น</label><input id="jName" placeholder="ชื่อที่ให้ทีมเรียก" value="${esc(saved?.name || '')}"></div>
+    <div class="field"><label for="jEmp">Employee Code (ถ้ามี)</label><input id="jEmp" class="mono" placeholder="เช่น PK-0421" value="${esc(saved?.emp || '')}"></div>
+    <p class="small muted" id="jMsg"></p>
+    <button class="btn-primary" id="jGo">เข้าห้องเกม →</button>
+    <button class="btn-ghost" onclick="go('home')">กลับหน้าแรก</button>
+  </section>`);
+  $('#jGo').onclick = async () => {
+    const code = $('#jCode').value.trim().toUpperCase(), name = $('#jName').value.trim(), emp = $('#jEmp').value.trim();
+    const msg = $('#jMsg');
+    if (!code || !name) { msg.textContent = 'กรุณากรอกรหัส Session และชื่อ'; return; }
+    $('#jGo').disabled = true; msg.textContent = 'กำลังตรวจสอบรหัส…';
+    await waitCaps();
+    const sess = await Store.get('sessions/' + code);
+    if (!sess) { msg.textContent = 'ไม่พบ Session นี้ ตรวจสอบรหัสอีกครั้ง'; $('#jGo').disabled = false; return; }
+    if (sess.status !== 'open') { msg.textContent = 'Session นี้ปิดแล้ว ติดต่อหัวหน้าทีมของคุณ'; $('#jGo').disabled = false; return; }
+    if (Store.real() && !CAP.uid) { msg.textContent = 'มุมมองนี้ไม่มีสิทธิ์บันทึกคำตอบ (ต้องเข้าด้วยบัญชีขององค์กรที่ได้รับสิทธิ์ "Can interact")'; $('#jGo').disabled = false; return; }
+    await Game.start(code, name, emp, sess);
+  };
+}
+
+/* ===================== Game ===================== */
+const Game = {
+  code: null, name: '', emp: '', run: null, timer: null, t0: 0, sel: [], step: 'choice', pid: null,
+  playerPath() { return 'players/' + this.pid; },
+  async start(code, name, emp, sess) {
+    this.code = code; this.name = name; this.emp = emp;
+    this.pid = Store.real() ? CAP.uid : ('local-' + (lsGet('wsq_localid') || (() => { const v = Math.random().toString(36).slice(2, 10); lsSet('wsq_localid', v); return v; })()));
+    const doc = await Store.get(this.playerPath());
+    const existing = doc?.sessions?.[code];
+    if (existing?.status === 'finished') { this.run = existing; lsSet('wsq_run', { code, name, emp }); go('result'); return; }
+    this.run = existing || { name, employeeCode: emp, sessionName: sess.name, status: 'joined', mission: 0, answers: {}, startedAt: null, joinedAt: nowIso(), completedAt: null, profile: null, ai: null };
+    this.run.name = name; this.run.employeeCode = emp; this.run.lastSeen = nowIso();
+    await this.save();
+    lsSet('wsq_run', { code, name, emp });
+    if (this.run.status === 'joined') viewConsent(); else go('play');
+  },
+  async save() {
+    const doc = (await Store.get(this.playerPath())) || {};
+    const sessions = { ...(doc.sessions || {}) };
+    sessions[this.code] = this.run;
+    await Store.set(this.playerPath(), { name: this.name, employeeCode: this.emp, updatedAt: nowIso(), sessions });
+  },
+  async resume() {
+    const saved = lsGet('wsq_run'); if (!saved) { go('join'); return false; }
+    await waitCaps();
+    if (!this.run || this.code !== saved.code) {
+      this.code = saved.code; this.name = saved.name; this.emp = saved.emp;
+      this.pid = Store.real() ? CAP.uid : ('local-' + lsGet('wsq_localid'));
+      if (!this.pid) { go('join'); return false; }
+      const doc = await Store.get(this.playerPath());
+      this.run = doc?.sessions?.[saved.code] || null;
+      if (!this.run) { lsDel('wsq_run'); go('join'); return false; }
+    }
+    return true;
+  },
+};
+window.claude?.hot?.snapshot?.(() => ({ hash: location.hash }));
+
+function viewConsent() {
+  render(`
+  <section class="card stack">
+    <p class="eyebrow">ก่อนเริ่มภารกิจ</p>
+    <h2>สวัสดี ${esc(Game.name)} 👋</h2>
+    <div class="notice">เกมนี้มีวัตถุประสงค์เพื่อช่วยให้คุณสำรวจจุดแข็งและรูปแบบการทำงานของตัวเอง ไม่ใช่การสอบหรือการประเมินคุณค่าของคุณ</div>
+    <ul class="small" style="margin:0;padding-left:1.2rem;color:var(--ink2);line-height:1.8">
+      <li>มี 5 ภารกิจ ใช้เวลาประมาณ 10–15 นาที</li>
+      <li>ไม่มีคำตอบถูกหรือผิด เลือกสิ่งที่ "คุณจะทำจริง"</li>
+      <li>คำตอบและเหตุผลของคุณจะเห็นได้เฉพาะคุณและ Management ของ Session นี้</li>
+      <li>ไม่มี Leaderboard และไม่มีการจัดอันดับ</li>
+    </ul>
+    <p class="small muted">Session: <b>${esc(Game.run.sessionName || Game.code)}</b> · ${esc(Game.code)}</p>
+    <button class="btn-primary" id="startBtn">🚀 เริ่ม Mission 1</button>
+  </section>`);
+  $('#startBtn').onclick = async () => {
+    Game.run.status = 'playing'; Game.run.startedAt = nowIso(); Game.run.mission = 1;
+    await Game.save(); go('play');
+  };
+}
+
+async function viewGame() {
+  if (!(await Game.resume())) return;
+  const run = Game.run;
+  if (run.status === 'finished') { go('result'); return; }
+  if (run.status === 'joined') { viewConsent(); return; }
+  const idx = Math.max(1, run.mission || 1);
+  if (idx > 5) { await finishGame(); return; }
+  const m = MISSIONS[idx - 1];
+  Game.sel = []; Game.step = 'choice'; Game.t0 = Date.now();
+  const pct = ((idx - 1) / 5) * 100;
+  const xp = (idx - 1) * XP_PER_MISSION;
+  render(`
+  <section class="stack-sm">
+    <div class="mission-head"><span class="eyebrow">Mission ${idx} / 5</span><span class="xp">✦ ${xp} XP</span></div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+  </section>
+  <section class="card stack pop">
+    <div class="mission-head">
+      <div><p class="eyebrow">${m.code}</p><h2>${m.emo} ${m.title}</h2></div>
+      ${m.time ? `<span class="timer" id="timer">⏱ ${m.time}s</span>` : ''}
+    </div>
+    <div class="scene">${esc(m.scene)}${m.list ? `<ol>${m.list.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}${m.tail ? `<p style="margin-top:.5rem"><b>${esc(m.tail)}</b></p>` : ''}</div>
+    ${m.time ? `<p class="small muted">คุณมีเวลาประมาณ ${m.time} วินาทีในการตัดสินใจ (ไม่บังคับ — เวลานี้ใช้เพื่อดูสไตล์การตัดสินใจ)</p>` : ''}
+    <div id="stage" class="stack"></div>
+  </section>`);
+  if (m.time) {
+    let left = m.time;
+    Game.timer = setInterval(() => { left--; const t = $('#timer'); if (!t) return; if (left >= 0) t.textContent = `⏱ ${left}s`; else { t.textContent = `⏱ +${-left}s`; t.classList.add('late'); } }, 1000);
+  }
+  renderChoiceStage(m, idx);
+}
+
+function optButton(k, label, extra = '') { return `<button class="opt" data-k="${k}" id="opt_${k}"><span class="key">${k}</span><span>${esc(label)}</span>${extra}</button>`; }
+
+function renderChoiceStage(m, idx) {
+  const st = $('#stage');
+  const opts = m.options ? Object.entries(m.options) : [];
+  let html = `<h3>${esc(m.question)}</h3>`;
+  if (m.type === 'roles2') {
+    html += `<div class="stack-sm">${m.roles.map(r => `<button class="role" data-k="${r.key}" id="role_${r.key}"><span class="emo">${r.emo}</span><div><b>${r.emo === '👑' ? '' : ''}${esc(r.name)}</b><span>${esc(r.desc)}</span></div></button>`).join('')}</div>`;
+  } else if (m.type === 'first2') {
+    html += `<div class="stack-sm" id="grpA">${opts.map(([k, v]) => optButton(k, v)).join('')}</div>
+      <div id="second" class="stack-sm hidden"><h3 style="margin-top:.5rem">${esc(m.question2)}</h3><div class="stack-sm" id="grpB">${opts.map(([k, v]) => optButton(k, v)).join('')}</div></div>`;
+  } else {
+    html += `<div class="stack-sm">${opts.map(([k, v]) => optButton(k, v, '<span class="rank"></span>')).join('')}</div>`;
+  }
+  html += `<p class="small muted" id="hint"></p><button class="btn-primary" id="nextBtn" disabled>ยืนยันคำตอบ →</button>`;
+  st.innerHTML = html;
+  const next = $('#nextBtn'), hint = $('#hint');
+  const limit = { rank3: 3, multi2: 2, roles2: 2, single: 1 }[m.type];
+
+  if (m.type === 'first2') {
+    let first = null, second = null;
+    $$('#grpA .opt').forEach(b => b.onclick = () => { first = b.dataset.k; $$('#grpA .opt').forEach(x => x.classList.toggle('on', x === b)); $('#second').classList.remove('hidden'); $$('#grpB .opt').forEach(x => { x.disabled = x.dataset.k === first; if (x.dataset.k === first) x.classList.remove('on'); }); if (second === first) second = null; next.disabled = !(first && second); });
+    $$('#grpB .opt').forEach(b => b.onclick = () => { second = b.dataset.k; $$('#grpB .opt').forEach(x => x.classList.toggle('on', x === b)); next.disabled = !(first && second); });
+    next.onclick = () => saveChoice(m, idx, { first, second });
+    return;
+  }
+  const sel = [];
+  const refresh = () => {
+    $$('.opt,.role', st).forEach(b => { const i = sel.indexOf(b.dataset.k); b.classList.toggle('on', i >= 0); const r = b.querySelector('.rank'); if (r) r.textContent = i >= 0 && m.type === 'rank3' ? (i + 1) : ''; });
+    hint.textContent = m.type === 'rank3' ? `เลือกแล้ว ${sel.length}/3 · กดซ้ำเพื่อยกเลิก` : m.type === 'single' ? '' : `เลือกแล้ว ${sel.length}/${limit}`;
+    next.disabled = m.type === 'single' ? sel.length !== 1 : m.type === 'multi2' ? sel.length < 1 : sel.length !== limit;
+  };
+  $$('.opt,.role', st).forEach(b => b.onclick = () => {
+    const k = b.dataset.k; const i = sel.indexOf(k);
+    if (i >= 0) sel.splice(i, 1);
+    else { if (m.type === 'single') sel.length = 0; if (sel.length < limit) sel.push(k); else if (m.type !== 'rank3') { sel.shift(); sel.push(k); } }
+    refresh();
+  });
+  refresh();
+  next.onclick = () => {
+    if (m.type === 'rank3') saveChoice(m, idx, { ranking: [...sel] });
+    else if (m.type === 'single') saveChoice(m, idx, { choice: sel[0] });
+    else if (m.type === 'multi2') saveChoice(m, idx, { choices: [...sel] });
+    else saveChoice(m, idx, { roles: [...sel] });
+  };
+}
+
+function saveChoice(m, idx, choice) {
+  const rt = Math.round((Date.now() - Game.t0) / 1000);
+  Game.pending = { ...choice, responseTime: rt, choiceAt: nowIso() };
+  if (Game.timer) { clearInterval(Game.timer); Game.timer = null; }
+  renderTextStage(m, idx);
+}
+
+function renderTextStage(m, idx) {
+  const st = $('#stage');
+  const p = Game.pending;
+  const chosen = p.ranking ? p.ranking.map((k, i) => `${i + 1}. ${k} — ${m.options[k]}`) : p.first ? [`1. ${p.first} — ${m.options[p.first]}`, `2. ${p.second} — ${m.options[p.second]}`] : p.choice ? [`${p.choice} — ${m.options[p.choice]}`] : p.choices ? p.choices.map(k => `${k} — ${m.options[k]}`) : p.roles.map(k => { const r = m.roles.find(x => x.key === k); return `${r.emo} ${r.name}`; });
+  st.innerHTML = `
+    <div class="ans-block"><h4>คำตอบของคุณ</h4>${chosen.map(c => `<div class="small">${esc(c)}</div>`).join('')}</div>
+    <h3>${esc(m.free)}</h3>
+    <textarea id="freeText" placeholder="เขียนเหตุผลด้วยภาษาของคุณเอง 1–3 ประโยค…"></textarea>
+    <p class="small muted" id="hint2">เขียนอย่างน้อย 10 ตัวอักษร</p>
+    <button class="btn-primary" id="submitBtn" disabled>ส่งคำตอบ Mission ${idx} ✓</button>`;
+  const ta = $('#freeText'), btn = $('#submitBtn');
+  const t1 = Date.now();
+  ta.oninput = () => { btn.disabled = ta.value.trim().length < 10; };
+  ta.focus();
+  btn.onclick = async () => {
+    btn.disabled = true; btn.textContent = 'กำลังบันทึก…';
+    const ans = { ...p, text: ta.value.trim(), textTime: Math.round((Date.now() - t1) / 1000), createdAt: nowIso() };
+    Game.run.answers[m.id] = ans;
+    Game.run.mission = idx + 1;
+    Game.run.lastSeen = nowIso();
+    try {
+      if (idx >= 5) { await finishGame(); }
+      else { await Game.save(); showMissionDone(idx); }
+    } catch (e) { console.error(e); toast('บันทึกไม่สำเร็จ ลองอีกครั้ง'); btn.disabled = false; btn.textContent = 'ส่งคำตอบอีกครั้ง'; }
+  };
+}
+
+function showMissionDone(idx) {
+  render(`
+  <section class="card stack pop" style="text-align:center;padding:2rem 1.25rem">
+    <div style="font-size:3rem">${['🚨', '🔎', '👑', '🔁', '🧭'][idx - 1]}</div>
+    <p class="eyebrow">Mission ${idx} Completed</p>
+    <h2>+${XP_PER_MISSION} XP</h2>
+    <p class="muted small">คำตอบถูกบันทึกแล้ว · ผลวิเคราะห์จะแสดงเมื่อครบทั้ง 5 ด่าน</p>
+    <div class="progress"><i style="width:${idx / 5 * 100}%"></i></div>
+    <button class="btn-primary" onclick="go('play')">Mission ${idx + 1} →</button>
+  </section>`);
+}
+
+async function finishGame() {
+  const run = Game.run;
+  run.status = 'finished'; run.completedAt = nowIso(); run.mission = 6;
+  run.profile = buildProfile(run.answers);
+  run.profile.baseScores = { ...run.profile.scores };
+  run.ai = run.ai || rulesSummary(run.answers, run.profile);
+  await Game.save();
+  go('result');
+}
+
+/* ===================== AI analysis (Claude via sample, fallback rules) ===================== */
+function answersToText(answers) {
+  return MISSIONS.map(m => {
+    const a = answers[m.id]; if (!a) return '';
+    const pick = a.ranking ? a.ranking.map((k, i) => `${i + 1}) ${m.options[k]}`).join(' | ') : a.first ? `first: ${m.options[a.first]} | second: ${m.options[a.second]}` : a.choice ? m.options[a.choice] : a.choices ? a.choices.map(k => m.options[k]).join(' | ') : a.roles ? a.roles.map(k => DIM[k].name).join(' | ') : '';
+    return `${m.code} ${m.title}\nสถานการณ์: ${m.scene}\nเลือก: ${pick}\nเวลาตอบ: ${a.responseTime ?? '-'}s\nคำถาม: ${m.free}\nเหตุผลที่เขียน: "${a.text || ''}"`;
+  }).filter(Boolean).join('\n\n');
+}
+
+async function aiAnalyzePlayer(run, onText) {
+  if (!CAP.sample) return null;
+  const prompt = `คุณเป็นผู้ช่วยวิเคราะห์ "แนวโน้มจุดแข็งในการทำงาน" จากคำตอบในเกมจำลองสถานการณ์คลังสินค้า (ไม่ใช่การประเมินบุคลิกภาพทางจิตวิทยา และห้ามตัดสินว่าเก่ง/ไม่เก่ง)
+มิติ 7 ด้าน (key): ps=Problem Solving, pl=Planning, dt=Detail & Accuracy, ac=Action Orientation, co=Coordination, pi=Process Improvement, ld=Leadership & Decision Making
+คะแนนเบื้องต้นจากตัวเลือก (0-100): ${JSON.stringify(run.profile.baseScores || run.profile.scores)}
+
+คำตอบของผู้เล่น "${run.name}":
+${answersToText(run.answers)}
+
+วิเคราะห์เหตุผลที่เขียน (free text) โดยมองหา pattern: การคิดเชิงเหตุผล, การมองต้นเหตุ, การจัดลำดับความสำคัญ, การมองความเสี่ยง, การสื่อสาร, การคิดเชิงระบบ, การตัดสินใจภายใต้แรงกดดัน, การคำนึงถึงคนอื่น, การคิดเชิงปรับปรุง, การใช้ข้อมูล
+ตอบเป็น JSON เท่านั้น (ภาษาไทย ยกเว้น key) ตามโครงนี้:
+{"summary":"สรุป 2-3 ประโยค เริ่มด้วย 'ผู้เล่นคนนี้มีแนวโน้ม…'",
+ "traitLevels":{"reasoning":"สูง|ปานกลาง|ต่ำ","root_cause":"…","priority":"…","risk":"…","communication":"…","systems":"…","pressure_decision":"…","people":"…","improvement":"…","data":"…"},
+ "observations":["สิ่งที่ระบบสังเกตเห็น 3 ข้อ ประโยคสั้น เริ่มด้วย 'คุณ…'"],
+ "strengths":["dim key 2-3 ตัว"],
+ "develop":["dim key 1-2 ตัวที่อาจพัฒนา"],
+ "devQuestion":"คำถามสำหรับพัฒนาตัวเอง 1 ข้อ",
+ "keyQuotes":["ประโยคสำคัญที่ผู้เล่นเขียนเอง 1-2 ประโยค คัดลอกตรงตัว"],
+ "adjust":{"ps":0,"pl":0,"dt":0,"ac":0,"co":0,"pi":0,"ld":0}}
+"adjust" = ปรับคะแนนจากหลักฐานใน free text เท่านั้น ช่วง -12 ถึง +12 ต่อมิติ (0 ถ้าไม่มีหลักฐาน)`;
+  const res = await CAP.sample.json(prompt, { modelTier: 'default', onText: onText ? ({ text }) => onText(text) : undefined });
+  return res;
+}
+
+async function applyAiToRun(run, ai) {
+  const base = run.profile.baseScores || run.profile.scores;
+  const scores = { ...base };
+  if (ai.adjust) DIMS.forEach(d => { const v = Number(ai.adjust[d.key]) || 0; scores[d.key] = Math.max(0, Math.min(100, Math.round(base[d.key] + Math.max(-12, Math.min(12, v))))); });
+  run.profile.scores = scores;
+  run.profile.levels = Object.fromEntries(DIMS.map(d => [d.key, levelOf(scores[d.key]).key]));
+  const st = pickStyle(scores); run.profile.style = { name: st.name, th: st.th, dims: st.dims };
+  if (Array.isArray(ai.observations) && ai.observations.length) run.profile.observations = ai.observations.slice(0, 3);
+  if (ai.devQuestion) run.profile.dev = { dim: (ai.develop || [])[0] || run.profile.dev.dim, question: ai.devQuestion };
+  run.ai = { source: 'claude', at: nowIso(), summary: ai.summary || '', traitLevels: ai.traitLevels || {}, strengths: (ai.strengths || []).map(k => DIM[k]?.name || k), develop: (ai.develop || []).map(k => DIM[k]?.name || k), keyQuotes: ai.keyQuotes || [], observations: run.profile.observations, devQuestion: run.profile.dev.question, adjust: ai.adjust || {} };
+}
+
+/* ===================== Result ===================== */
+function radarSvg(scoreSets, size = 300) {
+  // scoreSets: [{scores, color, fill}] – single scale 0..100
+  const c = size / 2, r = size / 2 - 64, n = DIMS.length;
+  const pt = (i, v) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [c + Math.cos(a) * r * v / 100, c + Math.sin(a) * r * v / 100]; };
+  let g = '';
+  [25, 50, 75, 100].forEach(v => { g += `<polygon points="${DIMS.map((_, i) => pt(i, v).join(',')).join(' ')}" fill="none" stroke="var(--line)" stroke-width="1"/>`; });
+  DIMS.forEach((_, i) => { const [x, y] = pt(i, 100); g += `<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`; });
+  scoreSets.forEach(s => {
+    const pts = DIMS.map((d, i) => pt(i, s.scores[d.key] || 0));
+    g += `<polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="${s.color}" fill-opacity=".18" stroke="${s.color}" stroke-width="2" stroke-linejoin="round"/>`;
+    pts.forEach(p => g += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${s.color}" stroke="var(--card)" stroke-width="2"/>`);
+  });
+  DIMS.forEach((d, i) => { const [x, y] = pt(i, 118); const anchor = Math.abs(x - c) < 10 ? 'middle' : x > c ? 'start' : 'end'; g += `<text x="${x}" y="${y + 4}" text-anchor="${anchor}" font-size="11" font-family="Kanit, Noto Sans Thai, sans-serif" fill="var(--ink2)">${d.emo} ${d.name.split(' ')[0]}</text>`; });
+  return `<svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size + 40}px;display:block;margin:0 auto;overflow:visible" role="img" aria-label="Radar chart of 7 strength dimensions">${g}</svg>`;
+}
+
+function dimBars(scores, showLevel = true) {
+  return DIMS.map(d => { const v = scores[d.key] || 0, lv = levelOf(v); return `<div class="dim-row"><span title="${d.name}">${d.emo}</span><div><div class="row spread small" style="margin-bottom:.2rem"><b>${d.name}</b>${showLevel ? `<span class="pill ${lv.color}">${lv.th}</span>` : `<span class="mono small">${v}</span>`}</div><div class="bar"><i style="width:${v}%;background:var(--${d.key})"></i></div></div></div>`; }).join('');
+}
+
+async function viewResult() {
+  if (!(await Game.resume())) return;
+  const run = Game.run;
+  if (run.status !== 'finished' || !run.profile) { go('play'); return; }
+  const p = run.profile;
+  const sorted = DIMS.slice().sort((a, b) => p.scores[b.key] - p.scores[a.key]);
+  const ach = ACHIEVEMENTS.filter(a => p.achievements.includes(a.key));
+  render(`
+  <section class="hero" style="text-align:center">
+    <p class="eyebrow" style="color:rgba(255,255,255,.6)">Quest Complete · ${esc(run.sessionName || Game.code)}</p>
+    <h1>Your Warehouse Strength Profile</h1>
+    <p style="margin:.5rem auto 0">${esc(run.name)} · ✦ ${p.xp} XP · ${ach.length} Achievements</p>
+  </section>
+  <section class="card stack">
+    <div><p class="eyebrow">สไตล์การทำงานที่พบ</p><h2>${esc(p.style.name)}</h2></div>
+    <p>${esc(p.style.th)}</p>
+    ${radarSvg([{ scores: p.scores, color: 'var(--accent)' }])}
+  </section>
+  <section class="card stack">
+    <div><p class="eyebrow">แนวโน้มจุดแข็ง</p><h3>เด่นที่สุด: ${sorted.slice(0, 2).map(d => `${d.emo} ${d.name}`).join(' · ')}</h3></div>
+    <div class="stack-sm">${dimBars(p.scores)}</div>
+    <p class="small muted">ระดับเป็น "แนวโน้ม" จากคำตอบในเกมนี้เท่านั้น ไม่ใช่การวัดความสามารถ</p>
+  </section>
+  <section class="card stack" id="aiCard">
+    <div class="row spread"><div><p class="eyebrow">สิ่งที่ระบบสังเกตเห็น</p><h3>AI interpretation</h3></div><span class="ai-tag" id="aiTag">${run.ai?.source === 'claude' ? '🤖 วิเคราะห์โดย Claude' : '📐 วิเคราะห์จากรูปแบบคำตอบ'}</span></div>
+    <div id="aiBody" class="stack-sm">${renderAiBody(run)}</div>
+    <div class="btn-row">${CAP.sample && run.ai?.source !== 'claude' ? `<button class="btn-navy" id="aiBtn">🤖 ให้ AI วิเคราะห์เหตุผลที่ฉันเขียน</button>` : ''}</div>
+    <p class="small muted">ข้อความนี้เป็น "AI interpretation" จากคำตอบในเกม ไม่ใช่การประเมินบุคลิกภาพทางจิตวิทยา</p>
+  </section>
+  <section class="card stack">
+    <p class="eyebrow">Achievements</p>
+    <div class="grid2">${ach.map(a => `<div class="badge pop"><span class="emo">${a.emo}</span><div><b>${a.name}</b><span>${a.th}</span></div></div>`).join('')}</div>
+  </section>
+  <section class="card stack">
+    <p class="eyebrow">คำถามสำหรับพัฒนาตัวเอง</p>
+    <h3>${esc(p.dev.question)}</h3>
+    <p class="small muted">ลองใช้คำถามนี้คุยกับหัวหน้าทีมหรือเพื่อนร่วมงานในครั้งถัดไป</p>
+  </section>
+  <div class="btn-row"><button class="btn-ghost" onclick="go('home')">กลับหน้าแรก</button><button class="btn-ghost" id="leaveBtn">ออกจาก Session นี้</button></div>`);
+  $('#leaveBtn').onclick = () => { lsDel('wsq_run'); Game.run = null; go('home'); };
+  const aiBtn = $('#aiBtn');
+  if (aiBtn) aiBtn.onclick = () => runAiForSelf(aiBtn);
+  else if (CAP.sample && run.ai?.source !== 'claude' && !run.aiTried) { /* auto-run once */ runAiForSelf(null); }
+}
+
+function renderAiBody(run) {
+  const ai = run.ai || {}; const p = run.profile;
+  const obs = (p.observations || []).map(o => `<div class="quote">“${esc(o)}”</div>`).join('');
+  const traits = ai.traitLevels ? `<div class="row" style="gap:.4rem;margin-top:.3rem">${TRAITS.filter(t => ai.traitLevels[t.key] && ai.traitLevels[t.key] !== 'ต่ำ').map(t => `<span class="pill ${ai.traitLevels[t.key] === 'สูง' ? 'info' : ''}">${t.th}: ${esc(ai.traitLevels[t.key])}</span>`).join('')}</div>` : '';
+  return `${obs}${ai.summary ? `<p style="margin-top:.4rem">${esc(ai.summary)}</p>` : ''}${traits}`;
+}
+
+async function runAiForSelf(btn) {
+  const run = Game.run; run.aiTried = true;
+  if (btn) { btn.disabled = true; btn.textContent = 'AI กำลังอ่านเหตุผลของคุณ…'; }
+  const tag = $('#aiTag'); if (tag) tag.textContent = '🤖 กำลังวิเคราะห์…';
+  try {
+    const ai = await aiAnalyzePlayer(run);
+    if (ai && typeof ai === 'object') { await applyAiToRun(run, ai); await Game.save(); toast('อัปเดตผลวิเคราะห์จาก AI แล้ว'); viewResult(); return; }
+    throw new Error('empty');
+  } catch (e) {
+    console.warn('AI unavailable', e);
+    if (tag) tag.textContent = '📐 วิเคราะห์จากรูปแบบคำตอบ';
+    if (btn) { btn.disabled = false; btn.textContent = 'ลองให้ AI วิเคราะห์อีกครั้ง'; }
+    if (e?.code === 'not_granted' && btn) btn.remove();
+  }
+}
+/* ===================== Management ===================== */
+const MG = { code: null, session: null, entries: [], tab: 'live', selected: null };
+const mgmtAllowed = () => !Store.real() || CAP.canEdit || CAP.isOwner;
+
+function authGate(next) {
+  if (mgmtAllowed()) return true;
+  render(`
+  <section class="card stack">
+    <p class="eyebrow">Management Login</p>
+    <h2>เฉพาะผู้ดูแล Session</h2>
+    <p class="small">มุมมองนี้เข้าด้วยบัญชี <b>${esc(CAP.user ? 'ขององค์กร' : 'ที่ไม่ได้ลงชื่อเข้าใช้')}</b> แต่ยังไม่มีสิทธิ์ระดับ Management</p>
+    <div class="notice">Management Dashboard เปิดได้เฉพาะบัญชีที่เจ้าของหน้านี้แชร์ให้ในระดับ <b>"Can edit"</b> เท่านั้น ผู้เล่นทั่วไป (Can interact) จะเห็นเฉพาะข้อมูลของตนเอง</div>
+    <p class="small muted">หากคุณเป็นหัวหน้าทีม ให้ขอสิทธิ์ Can edit จากผู้สร้างหน้านี้ แล้วรีเฟรชหน้า</p>
+    <button class="btn-ghost" onclick="go('home')">กลับหน้าแรก</button>
+  </section>`);
+  return false;
+}
+
+async function viewManage() {
+  render(`<section class="card"><p class="muted">กำลังตรวจสอบสิทธิ์…</p></section>`);
+  await waitCaps();
+  if (!authGate()) return;
+  const sessions = (await Store.list('sessions')).map(s => s.data).sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+  render(`
+  <section class="hero"><p class="eyebrow" style="color:rgba(255,255,255,.6)">Management Console</p><h1>Game Sessions</h1><p style="margin-top:.4rem">สร้างห้อง ส่งรหัสให้ทีม แล้วติดตามผลแบบ Real-time ${Store.real() ? '' : '<span class="pill warn">Demo mode: ข้อมูลตัวอย่าง ไม่ถูกบันทึกถาวร</span>'}</p></section>
+  <section class="card stack">
+    <div><p class="eyebrow">Create New Session</p><h2>สร้าง Session ใหม่</h2></div>
+    <div class="grid2">
+      <div class="field"><label for="sName">ชื่อ Session</label><input id="sName" placeholder="เช่น Warehouse Team Q4"></div>
+      <div class="field"><label for="sCode">Game Code (สุ่มให้อัตโนมัติ แก้ได้)</label><input id="sCode" class="mono" value="${randCode()}" autocapitalize="characters"></div>
+    </div>
+    <p class="small muted" id="sMsg"></p>
+    <button class="btn-primary" id="sCreate">＋ Create New Session</button>
+  </section>
+  <section class="stack-sm">
+    <p class="eyebrow">Sessions ทั้งหมด (${sessions.length})</p>
+    ${sessions.length ? sessions.map(s => `<button class="prow" data-code="${esc(s.code)}"><span class="dot ${s.status === 'open' ? 'online' : ''}" style="${s.status !== 'open' ? 'background:var(--muted)' : ''}"></span><span class="name"><b>${esc(s.name)}</b> <span class="mono muted small">${esc(s.code)}</span></span><span class="pill ${s.status === 'open' ? 'good' : ''}">${s.status === 'open' ? 'Open' : 'Closed'}</span><span class="muted small">${fmtTime(s.createdAt)}</span></button>`).join('') : '<p class="muted small">ยังไม่มี Session</p>'}
+  </section>`);
+  $$('.prow[data-code]').forEach(b => b.onclick = () => go('dash~' + b.dataset.code));
+  $('#sCreate').onclick = async () => {
+    const name = $('#sName').value.trim(), code = $('#sCode').value.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+    const msg = $('#sMsg');
+    if (!name || code.length < 4) { msg.textContent = 'กรุณาใส่ชื่อ Session และรหัสอย่างน้อย 4 ตัวอักษร'; return; }
+    if (await Store.get('sessions/' + code)) { msg.textContent = 'รหัสนี้ถูกใช้แล้ว กรุณาเปลี่ยน'; return; }
+    $('#sCreate').disabled = true;
+    try {
+      await Store.set('sessions/' + code, { name, code, status: 'open', createdAt: nowIso(), managementId: CAP.uid || 'demo', closedAt: null, insight: null });
+      toast('สร้าง Session แล้ว'); go('dash~' + code);
+    } catch (e) { console.error(e); msg.textContent = 'สร้างไม่สำเร็จ: ' + (e.message || e.code || e); $('#sCreate').disabled = false; }
+  };
+}
+
+/* ---- Dashboard ---- */
+function collectEntries(docs, code) {
+  const out = [];
+  docs.forEach(d => { const run = d.data?.sessions?.[code]; if (run) out.push({ pid: d.id, ...run, name: run.name || d.data.name || d.id, employeeCode: run.employeeCode || d.data.employeeCode || '' }); });
+  return out.sort((a, b) => (a.joinedAt || '').localeCompare(b.joinedAt || ''));
+}
+
+async function viewDash(code) {
+  render(`<section class="card"><p class="muted">กำลังโหลด…</p></section>`);
+  await waitCaps();
+  if (!authGate()) return;
+  MG.code = code; MG.selected = null;
+  MG.session = await Store.get('sessions/' + code);
+  if (!MG.session) { render(`<section class="card"><p>ไม่พบ Session ${esc(code)}</p><button class="btn-ghost" onclick="go('manage')">กลับ</button></section>`); return; }
+  app.classList.add('wrap-wide');
+  unsubs.push(() => app.classList.remove('wrap-wide'));
+  render(`
+  <section class="row spread">
+    <div><button class="btn-ghost btn-sm" onclick="go('manage')">← Sessions</button></div>
+    <div class="row"><span class="pill ${MG.session.status === 'open' ? 'good' : ''}" id="sessPill">${MG.session.status === 'open' ? '● Open' : '● Closed'}</span></div>
+  </section>
+  <section class="card">
+    <div class="row spread" style="align-items:flex-start">
+      <div><p class="eyebrow">Session</p><h1 style="font-size:1.6rem">${esc(MG.session.name)}</h1><div class="code-big">${esc(MG.session.code)}</div></div>
+      <div class="stat" style="text-align:center"><div class="qr" id="qrBox"></div><div class="l">สแกนเพื่อ Join</div></div>
+    </div>
+    <div class="row" style="margin-top:.8rem;gap:.5rem">
+      <input id="joinLink" readonly class="mono small" style="flex:1;min-width:200px" value="${esc(baseUrl() + '#join-' + code)}">
+      <button class="btn-sm btn-navy" id="copyLink">คัดลอกลิงก์</button>
+      <button class="btn-sm btn-ghost" id="toggleSess">${MG.session.status === 'open' ? 'ปิด Session' : 'เปิด Session อีกครั้ง'}</button>
+    </div>
+  </section>
+  <nav class="tabs" id="tabs">
+    ${[['live', '🟢 Live'], ['overview', '📊 Team Overview'], ['players', '👤 Individual'], ['map', '🗺️ Talent Map'], ['insight', '💡 Team Insight'], ['export', '⬇️ Export']].map(([k, l]) => `<button data-tab="${k}" class="${MG.tab === k ? 'on' : ''}">${l}</button>`).join('')}
+  </nav>
+  <section id="tabBody" class="stack"></section>`);
+  try { new QRCode($('#qrBox'), { text: baseUrl() + '#join-' + code, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M }); } catch (e) { $('#qrBox').textContent = '—'; }
+  $('#copyLink').onclick = async () => { const v = $('#joinLink').value; try { await navigator.clipboard.writeText(v); toast('คัดลอกลิงก์แล้ว'); } catch (e) { $('#joinLink').select(); toast('เลือกข้อความแล้ว กด Ctrl/Cmd+C'); } };
+  $('#toggleSess').onclick = async () => {
+    const open = MG.session.status === 'open';
+    MG.session = { ...MG.session, status: open ? 'closed' : 'open', closedAt: open ? nowIso() : null };
+    await Store.set('sessions/' + code, MG.session);
+    toast(open ? 'ปิด Session แล้ว ผู้เล่นใหม่จะเข้าไม่ได้' : 'เปิด Session แล้ว');
+    viewDash(code);
+  };
+  $$('#tabs button').forEach(b => b.onclick = () => { MG.tab = b.dataset.tab; $$('#tabs button').forEach(x => x.classList.toggle('on', x === b)); MG.selected = null; renderTab(); });
+  const unsub = Store.onList('players', docs => { MG.entries = collectEntries(docs, code); renderTab(); });
+  unsubs.push(unsub);
+}
+
+function renderTab() {
+  const body = $('#tabBody'); if (!body) return;
+  if (MG.selected) return renderProfile(body, MG.selected);
+  const t = MG.tab;
+  if (t === 'live') return renderLive(body);
+  if (t === 'overview') return renderOverview(body);
+  if (t === 'players') return renderPlayers(body);
+  if (t === 'map') return renderTalentMap(body);
+  if (t === 'insight') return renderInsight(body);
+  if (t === 'export') return renderExport(body);
+}
+
+const statusOf = e => e.status === 'finished' ? ['finished', 'Finished', '🔵'] : e.status === 'playing' ? ['playing', `Mission ${Math.min(5, e.mission || 1)}/5`, '🟡'] : ['online', 'Online', '🟢'];
+const finished = () => MG.entries.filter(e => e.status === 'finished' && e.profile);
+
+function renderLive(body) {
+  const E = MG.entries;
+  const n = { total: E.length, fin: E.filter(e => e.status === 'finished').length, play: E.filter(e => e.status === 'playing').length, on: E.filter(e => e.status === 'joined').length };
+  body.innerHTML = `
+  <div class="grid3">
+    <div class="stat"><div class="n">${n.total}</div><div class="l">ผู้เข้าร่วม</div></div>
+    <div class="stat"><div class="n" style="color:var(--good)">${n.on}</div><div class="l">🟢 Online (รอเริ่ม)</div></div>
+    <div class="stat"><div class="n" style="color:var(--warn)">${n.play}</div><div class="l">🟡 Playing</div></div>
+    <div class="stat"><div class="n" style="color:var(--info)">${n.fin}</div><div class="l">🔵 Finished</div></div>
+  </div>
+  <div class="card stack-sm">
+    <div class="row spread"><h3>Live Mode</h3><span class="small muted">อัปเดตอัตโนมัติ · เรียงตามเวลาเข้าห้อง</span></div>
+    ${E.length ? `<div class="plist">${E.map(e => { const [cls, label, emo] = statusOf(e); const pct = e.status === 'finished' ? 100 : Math.max(0, ((e.mission || 1) - 1) / 5 * 100); return `<button class="prow" data-pid="${esc(e.pid)}"><span class="dot ${cls}"></span><span class="name">${esc(e.name)} ${e.employeeCode ? `<span class="mono muted small">${esc(e.employeeCode)}</span>` : ''}</span><span style="width:90px" class="progress"><i style="width:${pct}%"></i></span><span class="small mono" style="min-width:6.5rem;text-align:right">${emo} ${label}</span></button>`; }).join('')}</div>` : '<p class="muted small">ยังไม่มีผู้เล่นเข้าห้อง แชร์รหัสหรือ QR ให้ทีมได้เลย</p>'}
+  </div>`;
+  $$('.prow[data-pid]', body).forEach(b => b.onclick = () => { MG.selected = b.dataset.pid; renderTab(); });
+}
+
+function teamStats() {
+  const F = finished();
+  const avg = {}, strong = {}, sd = {};
+  DIMS.forEach(d => {
+    const vals = F.map(e => e.profile.scores[d.key] || 0);
+    const m = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+    avg[d.key] = Math.round(m);
+    strong[d.key] = vals.filter(v => v >= 50).length;
+    sd[d.key] = vals.length ? Math.round(Math.sqrt(vals.reduce((a, v) => a + (v - m) ** 2, 0) / vals.length)) : 0;
+  });
+  const keys = DIMS.map(d => d.key);
+  const common = keys.filter(k => F.length && strong[k] >= Math.ceil(F.length / 2)).sort((a, b) => strong[b] - strong[a]);
+  const diverse = keys.slice().sort((a, b) => sd[b] - sd[a]).slice(0, 2).filter(k => sd[k] >= 15);
+  const develop = keys.slice().sort((a, b) => avg[a] - avg[b]).slice(0, 2);
+  return { F, avg, strong, sd, common, diverse, develop };
+}
+
+function heatColor(v) { const t = Math.max(0, Math.min(1, v / 100)); return `color-mix(in srgb, var(--info) ${Math.round(8 + t * 72)}%, var(--card))`; }
+
+function renderOverview(body) {
+  const { F, avg, strong, common, diverse, develop } = teamStats();
+  if (!F.length) { body.innerHTML = `<div class="card"><p class="muted">ยังไม่มีผู้เล่นที่เล่นจบ ภาพรวมทีมจะแสดงเมื่อมีอย่างน้อย 1 คนเล่นครบ 5 ด่าน</p></div>`; return; }
+  body.innerHTML = `
+  <div class="grid3">
+    <div class="stat"><div class="n">${MG.entries.length}</div><div class="l">ผู้เข้าร่วม</div></div>
+    <div class="stat"><div class="n">${F.length}</div><div class="l">เล่นจบแล้ว</div></div>
+    <div class="stat"><div class="n">${MG.entries.length - F.length}</div><div class="l">กำลังเล่น / รอเริ่ม</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card stack-sm"><p class="eyebrow">จุดแข็งที่พบมากในทีม</p>${common.length ? common.map(k => `<div class="row spread"><span>${DIM[k].emo} <b>${DIM[k].name}</b></span><span class="pill info">${strong[k]}/${F.length} คน Strong+</span></div>`).join('') : '<p class="small muted">ยังไม่มีมิติที่เกินครึ่งทีมอยู่ระดับ Strong</p>'}</div>
+    <div class="card stack-sm"><p class="eyebrow">จุดแข็งที่พบหลากหลาย</p>${diverse.length ? diverse.map(k => `<div class="row spread"><span>${DIM[k].emo} <b>${DIM[k].name}</b></span><span class="pill">กระจายตัวสูง</span></div>`).join('') : '<p class="small muted">ทีมมีรูปแบบค่อนข้างใกล้เคียงกัน</p>'}<p class="eyebrow" style="margin-top:.6rem">Areas ที่ทีมอาจต้องพัฒนา</p>${develop.map(k => `<div class="row spread"><span>${DIM[k].emo} <b>${DIM[k].name}</b></span><span class="pill warn">ค่าเฉลี่ย ${avg[k]}</span></div>`).join('')}</div>
+  </div>
+  <div class="grid2">
+    <div class="card stack-sm"><p class="eyebrow">Team Radar (ค่าเฉลี่ย)</p>${radarSvg([{ scores: avg, color: 'var(--info)' }], 300)}</div>
+    <div class="card stack-sm"><p class="eyebrow">ค่าเฉลี่ยรายมิติ</p>${dimBars(avg, false)}<p class="small muted">จำนวนคนระดับ Strong ขึ้นไป: ${DIMS.map(d => `${d.emo}${strong[d.key]}`).join(' · ')}</p></div>
+  </div>
+  <div class="card stack-sm">
+    <div class="row spread"><p class="eyebrow">Heatmap — แนวโน้มจุดแข็งรายคน</p><span class="small muted">เรียงตามเวลาเข้าห้อง ไม่ใช่การจัดอันดับ</span></div>
+    <div class="tablewrap"><table class="heat"><thead><tr><th>Player</th>${DIMS.map(d => `<th title="${d.name}">${d.emo}</th>`).join('')}<th>Style</th></tr></thead>
+    <tbody>${F.map(e => `<tr><td><button class="btn-sm btn-ghost" data-pid="${esc(e.pid)}">${esc(e.name)}</button></td>${DIMS.map(d => `<td class="c" style="background:${heatColor(e.profile.scores[d.key])}">${e.profile.scores[d.key]}</td>`).join('')}<td class="small">${esc(e.profile.style.name)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="legend"><span><i style="background:${heatColor(15)}"></i>Emerging</span><span><i style="background:${heatColor(40)}"></i>Moderate</span><span><i style="background:${heatColor(60)}"></i>Strong</span><span><i style="background:${heatColor(85)}"></i>Very Strong</span></div>
+  </div>`;
+  $$('button[data-pid]', body).forEach(b => b.onclick = () => { MG.selected = b.dataset.pid; renderTab(); });
+}
+
+function renderPlayers(body) {
+  body.innerHTML = `<div class="card stack-sm"><h3>Individual Profile</h3><p class="small muted">กดชื่อเพื่อดูคะแนน 7 มิติ คำตอบทุก Mission เหตุผล และ AI Analysis</p>
+  ${MG.entries.length ? `<div class="plist">${MG.entries.map(e => { const [cls, label, emo] = statusOf(e); return `<button class="prow" data-pid="${esc(e.pid)}"><span class="dot ${cls}"></span><span class="name">${esc(e.name)} ${e.employeeCode ? `<span class="mono muted small">${esc(e.employeeCode)}</span>` : ''}</span>${e.profile ? `<span class="small muted">${esc(e.profile.style.name)}</span>` : ''}<span class="small">${emo} ${label}</span></button>`; }).join('')}</div>` : '<p class="muted small">ยังไม่มีผู้เล่น</p>'}</div>`;
+  $$('.prow[data-pid]', body).forEach(b => b.onclick = () => { MG.selected = b.dataset.pid; renderTab(); });
+}
+
+function answerSummary(m, a) {
+  if (!a) return '<span class="muted">ยังไม่ตอบ</span>';
+  if (a.ranking) return a.ranking.map((k, i) => `${i + 1}. ${k} — ${esc(m.options[k])}`).join('<br>');
+  if (a.first) return `อันดับ 1: ${a.first} — ${esc(m.options[a.first])}<br>อันดับ 2: ${a.second} — ${esc(m.options[a.second])}`;
+  if (a.choice) return `${a.choice} — ${esc(m.options[a.choice])}`;
+  if (a.choices) return a.choices.map(k => `${k} — ${esc(m.options[k])}`).join('<br>');
+  if (a.roles) return a.roles.map(k => `${DIM[k].emo} ${esc(m.roles.find(r => r.key === k)?.name || k)}`).join(' · ');
+  return '';
+}
+
+function renderProfile(body, pid) {
+  const e = MG.entries.find(x => x.pid === pid);
+  if (!e) { MG.selected = null; return renderTab(); }
+  const p = e.profile; const [cls, label, emo] = statusOf(e);
+  const ach = p ? ACHIEVEMENTS.filter(a => p.achievements.includes(a.key)) : [];
+  body.innerHTML = `
+  <div class="row spread"><button class="btn-ghost btn-sm" id="backList">← กลับ</button><span class="pill ${cls === 'finished' ? 'info' : cls === 'playing' ? 'warn' : 'good'}">${emo} ${label}</span></div>
+  <div class="card stack">
+    <div class="row spread" style="align-items:flex-start"><div><p class="eyebrow">Employee</p><h2>${esc(e.name)}</h2><p class="small muted mono">${esc(e.employeeCode || '—')} · เข้าห้อง ${fmtTime(e.joinedAt)} ${e.completedAt ? '· จบ ' + fmtTime(e.completedAt) : ''}</p></div>${p ? `<div style="text-align:right"><p class="eyebrow">สไตล์</p><b style="font-family:Kanit">${esc(p.style.name)}</b></div>` : ''}</div>
+    ${p ? `<div class="grid2"><div>${radarSvg([{ scores: p.scores, color: 'var(--accent)' }], 280)}</div><div class="stack-sm">${dimBars(p.scores)}</div></div><p class="small">${esc(p.style.th)}</p>` : '<p class="muted small">ผลวิเคราะห์จะแสดงเมื่อเล่นจบ</p>'}
+  </div>
+  ${p ? `<div class="card stack-sm">
+    <div class="row spread"><h3>AI Analysis</h3><span class="ai-tag">${e.ai?.source === 'claude' ? '🤖 วิเคราะห์โดย Claude' : '📐 วิเคราะห์จากรูปแบบคำตอบ (rule-based)'}</span></div>
+    <p><b>AI Summary:</b> ${esc(e.ai?.summary || '—')}</p>
+    <div class="grid2">
+      <div><p class="eyebrow">จุดแข็ง</p><p>${(e.ai?.strengths || []).map(s => `<span class="pill info">${esc(s)}</span>`).join(' ')}</p></div>
+      <div><p class="eyebrow">สิ่งที่อาจพัฒนา</p><p>${(e.ai?.develop || []).map(s => `<span class="pill warn">${esc(s)}</span>`).join(' ')}</p></div>
+    </div>
+    ${e.ai?.traitLevels ? `<p class="eyebrow">Pattern ที่พบในเหตุผล</p><div class="row" style="gap:.4rem">${TRAITS.map(t => `<span class="pill ${e.ai.traitLevels[t.key] === 'สูง' ? 'info' : ''}">${t.th}: ${esc(e.ai.traitLevels[t.key] || '-')}</span>`).join('')}</div>` : ''}
+    <p class="eyebrow">สิ่งที่ระบบสังเกตเห็น</p>${(p.observations || []).map(o => `<div class="quote">“${esc(o)}”</div>`).join('')}
+    ${(e.ai?.keyQuotes || []).length ? `<p class="eyebrow">คำพูดสำคัญจากผู้เล่น</p>${e.ai.keyQuotes.map(q => `<div class="quote" style="border-color:var(--accent)">“${esc(q)}”</div>`).join('')}` : ''}
+    <p class="eyebrow">คำถามสำหรับพัฒนา</p><p>${esc(p.dev?.question || '')}</p>
+    <div class="row"><span class="small muted">Achievements:</span>${ach.map(a => `<span class="pill">${a.emo} ${a.name}</span>`).join('')}</div>
+    <div class="btn-row">${CAP.sample ? `<button class="btn-navy btn-sm" id="reAi">🤖 ${e.ai?.source === 'claude' ? 'วิเคราะห์ด้วย Claude อีกครั้ง' : 'ให้ Claude วิเคราะห์เหตุผล'}</button>` : ''}<button class="btn-ghost btn-sm" id="expOne">⬇️ Export Individual Report</button></div>
+    <p class="small muted">ข้อความนี้เป็น AI interpretation จากคำตอบในเกม ไม่ใช่การประเมินบุคลิกภาพทางจิตวิทยา และไม่ควรใช้จัดอันดับพนักงาน</p>
+  </div>` : ''}
+  <div class="card stack-sm"><h3>คำตอบแต่ละ Mission</h3>
+    ${MISSIONS.map(m => { const a = e.answers?.[m.id]; return `<div class="ans-block"><h4>${m.emo} ${m.code} — ${m.title}</h4><div class="small">${answerSummary(m, a)}</div>${a ? `<p class="small muted" style="margin-top:.3rem">เวลาตัดสินใจ ${a.responseTime ?? '-'} วินาที · ${fmtTime(a.createdAt)}</p><p class="small" style="margin-top:.3rem"><b>${esc(m.free)}</b></p><div class="quote">${esc(a.text || '—')}</div>` : ''}</div>`; }).join('')}
+  </div>`;
+  $('#backList').onclick = () => { MG.selected = null; renderTab(); };
+  $('#expOne')?.addEventListener('click', () => deliverCsv(`WSQ_${MG.code}_${e.name}.csv`, csvIndividual(e)));
+  $('#reAi')?.addEventListener('click', async ev => {
+    const b = ev.currentTarget; b.disabled = true; b.textContent = 'Claude กำลังวิเคราะห์…';
+    try {
+      const run = { ...e, profile: JSON.parse(JSON.stringify(e.profile)) };
+      const ai = await aiAnalyzePlayer(run);
+      if (!ai) throw new Error('no ai');
+      await applyAiToRun(run, ai);
+      // write back into that player's document (admin write)
+      const doc = (await Store.get('players/' + e.pid)) || {}; const sessions = { ...(doc.sessions || {}) };
+      const { pid, ...rest } = run; sessions[MG.code] = rest;
+      await Store.set('players/' + e.pid, { ...doc, sessions });
+      toast('อัปเดต AI Analysis แล้ว');
+    } catch (err) { console.warn(err); toast('เรียก AI ไม่สำเร็จ ใช้ผลวิเคราะห์แบบ rule-based แทน'); b.disabled = false; b.textContent = 'ลองอีกครั้ง'; }
+  });
+}
+
+/* ---- Talent map ---- */
+function renderTalentMap(body) {
+  const F = finished();
+  const size = 560, c = size / 2, R = size / 2 - 70;
+  const anchor = i => { const a = -Math.PI / 2 + i * 2 * Math.PI / DIMS.length; return [c + Math.cos(a) * R, c + Math.sin(a) * R]; };
+  let g = `<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="var(--line)"/><circle cx="${c}" cy="${c}" r="${R * .5}" fill="none" stroke="var(--line)" stroke-dasharray="4 4"/>`;
+  DIMS.forEach((d, i) => { const [x, y] = anchor(i); g += `<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="var(--line)"/><circle cx="${x}" cy="${y}" r="16" fill="var(--${d.key})" opacity=".9"/><text x="${x}" y="${y + 5}" text-anchor="middle" font-size="14">${d.emo}</text>`; const lx = c + (x - c) * 1.22, ly = c + (y - c) * 1.22; g += `<text x="${lx}" y="${ly + 4}" text-anchor="middle" font-size="12" font-family="Kanit, sans-serif" fill="var(--ink2)">${d.name.split(' ')[0]}</text>`; });
+  const pts = F.map((e, idx) => {
+    let sx = 0, sy = 0, sw = 0;
+    DIMS.forEach((d, i) => { const w = Math.pow((e.profile.scores[d.key] || 0) / 100, 3); const [x, y] = anchor(i); sx += (x - c) * w; sy += (y - c) * w; sw += w; });
+    let px = sw ? sx / sw * 1.7 : 0, py = sw ? sy / sw * 1.7 : 0;
+    const len = Math.hypot(px, py), max = R * .72; if (len > max) { px *= max / len; py *= max / len; }
+    const j = (idx * 137.5) % 360 * Math.PI / 180; px += Math.cos(j) * 14; py += Math.sin(j) * 14;
+    const top = DIMS.slice().sort((a, b) => e.profile.scores[b.key] - e.profile.scores[a.key])[0].key;
+    return { e, x: c + px, y: c + py, top };
+  });
+  pts.forEach(p => { g += `<g class="tp" data-pid="${esc(p.e.pid)}" style="cursor:pointer"><circle cx="${p.x}" cy="${p.y}" r="13" fill="var(--${p.top})" stroke="var(--card)" stroke-width="3"/><text x="${p.x}" y="${p.y + 26}" text-anchor="middle" font-size="12" font-family="Noto Sans Thai, sans-serif" fill="var(--ink)">${esc(p.e.name)}</text></g>`; });
+  body.innerHTML = `<div class="card stack-sm">
+    <div class="row spread"><h3>Team Talent Map</h3><span class="small muted">${F.length} คน · กดที่ชื่อเพื่อดูรายละเอียด</span></div>
+    <p class="small muted">แต่ละคนถูกวางตามแนวโน้มจุดแข็ง (ใกล้มิติที่เด่น) สีของจุด = มิติที่เด่นที่สุด แผนที่นี้ใช้เพื่อเห็น "ความหลากหลายของจุดแข็งในทีม" ไม่ใช่การจัดอันดับ</p>
+    ${F.length ? `<svg class="tmap" viewBox="0 0 ${size} ${size}" role="img" aria-label="Team talent map">${g}</svg>` : '<p class="muted small">ยังไม่มีผู้เล่นที่เล่นจบ</p>'}
+    <div class="legend">${DIMS.map(d => `<span><i style="background:var(--${d.key})"></i>${d.name}</span>`).join('')}</div>
+  </div>`;
+  $$('.tp', body).forEach(gp => gp.onclick = () => { MG.selected = gp.dataset.pid; renderTab(); });
+}
+
+/* ---- Team insight ---- */
+function rulesTeamInsight() {
+  const { F, avg, strong, sd, common, diverse, develop } = teamStats();
+  const ins = [], qs = [];
+  if (!F.length) return { source: 'rules', insights: ['ยังไม่มีข้อมูลเพียงพอ'], questions: [] };
+  if (common.length) ins.push(`ทีมนี้มีสมาชิกหลายคนที่มีแนวโน้มด้าน ${common.slice(0, 2).map(k => DIM[k].name).join(' และ ')}`);
+  if (diverse.length) ins.push(`มีความหลากหลายด้าน ${diverse.map(k => DIM[k].name).join(' และ ')} — สมาชิกบางคนเด่นมาก บางคนยังเป็น Emerging ซึ่งเป็นโอกาสในการจับคู่เรียนรู้กัน`);
+  const m2 = {}; F.forEach(e => { const f = e.answers?.m2?.first; if (f) m2[f] = (m2[f] || 0) + 1; });
+  const m2keys = Object.keys(m2);
+  if (m2keys.length >= 2) ins.push(`จากคำตอบของสมาชิกหลายคน พบรูปแบบการตัดสินใจที่แตกต่างกันในสถานการณ์ SKU Missing: ${m2keys.map(k => `${m2[k]} คนเลือก "${MISSION.m2.options[k]}"`).join(', ')}`);
+  else if (m2keys.length === 1) ins.push(`ในสถานการณ์ SKU Missing ทุกคนเลือกเริ่มจาก "${MISSION.m2.options[m2keys[0]]}" — ทีมมีรูปแบบการคิดที่คล้ายกัน อาจลองถามว่ามีมุมอื่นที่ควรพิจารณาไหม`);
+  const m3 = {}; F.forEach(e => { const f = e.answers?.m3?.choice; if (f) m3[f] = (m3[f] || 0) + 1; });
+  const lead = (m3.B || 0) + (m3.E || 0);
+  if (lead) ins.push(`เมื่อหัวหน้าไม่อยู่ ${lead}/${F.length} คนพร้อมก้าวออกมาจัดทีม (เลือกแบ่งงานหรือเรียกทีมคุย)`);
+  ins.push(`มิติที่ทีมอาจต้องพัฒนาร่วมกัน: ${develop.map(k => `${DIM[k].name} (เฉลี่ย ${avg[k]})`).join(', ')}`);
+  qs.push('เมื่อเกิดปัญหาเร่งด่วน ทีมของเราควรตัดสินใจก่อน หรือเก็บข้อมูลก่อน? และใครควรเป็นคนตัดสิน?');
+  if (strong.pi) qs.push(`เราสามารถใช้คนที่ถนัด Process Improvement (${strong.pi} คน) มาช่วยลดปัญหา Packing Error ได้อย่างไร?`);
+  if (develop.includes('co')) qs.push('ในวันที่งานหนัก เราจะสื่อสารสถานะกันอย่างไรให้ทุกคนเห็นภาพเดียวกัน?');
+  if (develop.includes('ld')) qs.push('ถ้า Management ไม่อยู่ 15 นาที ใครควรเป็นคนตัดสินใจ และเราต้องเตรียมอะไรไว้ล่วงหน้า?');
+  qs.push('จุดแข็งที่แตกต่างกันในทีม จะช่วยเสริมกันในงานประจำวันได้ตรงไหนบ้าง?');
+  return { source: 'rules', insights: ins, questions: qs.slice(0, 4), at: nowIso() };
+}
+
+async function aiTeamInsight() {
+  if (!CAP.sample) return null;
+  const { F, avg } = teamStats();
+  const data = F.map(e => ({ name: e.name, style: e.profile.style.name, top: DIMS.slice().sort((a, b) => e.profile.scores[b.key] - e.profile.scores[a.key]).slice(0, 2).map(d => d.key), scores: e.profile.scores, m1_first: MISSION.m1.options[e.answers?.m1?.ranking?.[0]], m2_first: MISSION.m2.options[e.answers?.m2?.first], m3: MISSION.m3.options[e.answers?.m3?.choice], m4: (e.answers?.m4?.choices || []).map(k => MISSION.m4.options[k]), quotes: ['m1', 'm2', 'm3', 'm4'].map(k => e.answers?.[k]?.text).filter(Boolean).slice(0, 2) }));
+  const prompt = `คุณเป็นผู้ช่วยวิเคราะห์ภาพรวมทีมคลังสินค้าจากเกมจำลองสถานการณ์ (ห้ามจัดอันดับว่าใครดีที่สุด ห้ามตัดสินว่าเก่ง/ไม่เก่ง เน้น "ความหลากหลายของจุดแข็ง")
+มิติ: ps=Problem Solving, pl=Planning, dt=Detail, ac=Action, co=Coordination, pi=Process Improvement, ld=Leadership
+ค่าเฉลี่ยทีม: ${JSON.stringify(avg)}
+สมาชิก (${F.length} คน): ${JSON.stringify(data)}
+ตอบเป็น JSON เท่านั้น ภาษาไทย:
+{"insights":["ข้อสังเกตภาพรวมทีม 3-4 ข้อ เช่น จุดแข็งที่พบมาก ความหลากหลาย รูปแบบการตัดสินใจที่ต่างกันใน Mission ต่าง ๆ โดยอ้างอิงคำตอบจริง"],
+ "questions":["คำถามสำหรับ Team Discussion 3-4 ข้อ ที่ใช้เปิดวงคุยได้จริง"]}`;
+  return CAP.sample.json(prompt, { modelTier: 'default' });
+}
+
+function renderInsight(body) {
+  const F = finished();
+  const saved = MG.session.insight;
+  const ins = saved && saved.count === F.length ? saved : rulesTeamInsight();
+  body.innerHTML = `<div class="card stack">
+    <div class="row spread"><div><p class="eyebrow">Team Insight</p><h3>AI วิเคราะห์ภาพรวมทีม</h3></div><span class="ai-tag">${ins.source === 'claude' ? '🤖 วิเคราะห์โดย Claude' : '📐 rule-based'}</span></div>
+    ${F.length ? `<div class="stack-sm">${ins.insights.map(i => `<div class="quote">“${esc(i)}”</div>`).join('')}</div>
+    <p class="eyebrow" style="margin-top:.4rem">คำถามสำหรับ Team Discussion</p>
+    <ol style="margin:0;padding-left:1.3rem;line-height:1.8">${ins.questions.map(q => `<li>${esc(q)}</li>`).join('')}</ol>
+    <div class="btn-row">${CAP.sample ? `<button class="btn-navy" id="aiTeam">🤖 ให้ Claude วิเคราะห์ทีมจากคำตอบจริง</button>` : ''}</div>` : '<p class="muted small">ยังไม่มีผู้เล่นที่เล่นจบ</p>'}
+    <p class="small muted">Insight นี้เป็น AI interpretation เพื่อช่วยเปิดวงคุยในทีม ไม่ใช่การประเมินผลงานหรือจัดอันดับพนักงาน</p>
+  </div>`;
+  $('#aiTeam')?.addEventListener('click', async ev => {
+    const b = ev.currentTarget; b.disabled = true; b.textContent = 'Claude กำลังอ่านคำตอบของทีม…';
+    try {
+      const r = await aiTeamInsight(); if (!r?.insights) throw new Error('empty');
+      MG.session = { ...MG.session, insight: { source: 'claude', insights: r.insights, questions: r.questions || [], at: nowIso(), count: F.length } };
+      await Store.set('sessions/' + MG.code, MG.session); renderTab(); toast('อัปเดต Team Insight แล้ว');
+    } catch (e) { console.warn(e); toast('เรียก AI ไม่สำเร็จ แสดงผลแบบ rule-based แทน'); b.disabled = false; b.textContent = 'ลองอีกครั้ง'; }
+  });
+}
+
+/* ---- Export ---- */
+const csvCell = v => { const s = String(v ?? '').replace(/"/g, '""'); return /[",\n\r]/.test(s) ? `"${s}"` : s; };
+const toCsv = rows => '﻿' + rows.map(r => r.map(csvCell).join(',')).join('\r\n');
+const lvTh = v => levelOf(v || 0).th;
+const answerPlain = (m, a) => answerSummary(m, a).replace(/<br>/g, ' / ').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
+
+function csvIndividual(e) {
+  const p = e.profile || {}; const rows = [['Field', 'Value'], ['Session', MG.session.name], ['Game Code', MG.code], ['Player', e.name], ['Employee Code', e.employeeCode], ['Status', e.status], ['Joined', e.joinedAt], ['Completed', e.completedAt], ['Work Style', p.style?.name], ['Style Description', p.style?.th]];
+  DIMS.forEach(d => rows.push([d.name, p.scores ? `${p.scores[d.key]} (${lvTh(p.scores[d.key])})` : '']));
+  rows.push(['AI Source', e.ai?.source], ['AI Summary', e.ai?.summary], ['Strengths', (e.ai?.strengths || []).join('; ')], ['Develop', (e.ai?.develop || []).join('; ')], ['Observations', (p.observations || []).join(' | ')], ['Development Question', p.dev?.question], ['Achievements', (p.achievements || []).map(k => ACHIEVEMENTS.find(a => a.key === k)?.name).join('; ')]);
+  MISSIONS.forEach(m => { const a = e.answers?.[m.id]; rows.push([`${m.code} choice`, answerPlain(m, a)], [`${m.code} response time (s)`, a?.responseTime], [`${m.code} reason`, a?.text]); });
+  return toCsv(rows);
+}
+function csvTeam() {
+  const head = ['Player', 'Employee Code', 'Status', ...DIMS.map(d => d.name), 'Work Style', 'Strength Profile', ...MISSIONS.map(m => m.code + ' response'), ...MISSIONS.map(m => m.code + ' reason'), 'AI Summary', 'AI Source', 'Development Question'];
+  const rows = [head];
+  MG.entries.forEach(e => { const p = e.profile || {}; rows.push([e.name, e.employeeCode, e.status, ...DIMS.map(d => p.scores ? p.scores[d.key] : ''), p.style?.name || '', p.scores ? DIMS.map(d => `${d.name}: ${lvTh(p.scores[d.key])}`).join('; ') : '', ...MISSIONS.map(m => answerPlain(m, e.answers?.[m.id])), ...MISSIONS.map(m => e.answers?.[m.id]?.text || ''), e.ai?.summary || '', e.ai?.source || '', p.dev?.question || '']); });
+  return toCsv(rows);
+}
+function csvRaw() {
+  const rows = [['player_id', 'player', 'employee_code', 'mission_id', 'question_id', 'answer', 'ranking', 'response_time_s', 'text_time_s', 'created_at']];
+  MG.entries.forEach(e => MISSIONS.forEach(m => { const a = e.answers?.[m.id]; if (!a) return;
+    if (a.ranking) rows.push([e.pid, e.name, e.employeeCode, m.id, 'rank3', a.ranking.join('>'), a.ranking.join('>'), a.responseTime, '', a.choiceAt]);
+    if (a.first) { rows.push([e.pid, e.name, e.employeeCode, m.id, 'first', a.first, 1, a.responseTime, '', a.choiceAt]); rows.push([e.pid, e.name, e.employeeCode, m.id, 'second', a.second, 2, a.responseTime, '', a.choiceAt]); }
+    if (a.choice) rows.push([e.pid, e.name, e.employeeCode, m.id, 'single', a.choice, '', a.responseTime, '', a.choiceAt]);
+    if (a.choices) rows.push([e.pid, e.name, e.employeeCode, m.id, 'multi', a.choices.join('+'), '', a.responseTime, '', a.choiceAt]);
+    if (a.roles) rows.push([e.pid, e.name, e.employeeCode, m.id, 'roles', a.roles.join('+'), '', a.responseTime, '', a.choiceAt]);
+    rows.push([e.pid, e.name, e.employeeCode, m.id, 'free_text', a.text || '', '', '', a.textTime, a.createdAt]);
+  }));
+  return toCsv(rows);
+}
+function csvAI() {
+  const rows = [['player_id', 'player', 'dimension', 'score', 'level', 'explanation', 'ai_source']];
+  MG.entries.filter(e => e.profile).forEach(e => { DIMS.forEach(d => rows.push([e.pid, e.name, d.name, e.profile.scores[d.key], lvTh(e.profile.scores[d.key]), e.ai?.traitLevels ? TRAITS.filter(t => t.dims[d.key]).map(t => `${t.th}: ${e.ai.traitLevels[t.key] || '-'}`).join('; ') : '', e.ai?.source])); rows.push([e.pid, e.name, 'SUMMARY', '', '', e.ai?.summary || '', e.ai?.source]); });
+  return toCsv(rows);
+}
+async function deliverCsv(filename, data) {
+  if (CAP.downloads) { try { await CAP.downloads.save({ filename, data }); toast('บันทึกไฟล์แล้ว'); return; } catch (e) { if (e?.code === 'declined') return; console.warn(e); } }
+  // fallback: show text to copy
+  const body = $('#tabBody');
+  const box = document.createElement('div'); box.className = 'card stack-sm';
+  box.innerHTML = `<div class="row spread"><b>${esc(filename)}</b><button class="btn-sm btn-ghost" id="closeCsv">ปิด</button></div><p class="small muted">การดาวน์โหลดไฟล์ไม่พร้อมใช้งานในมุมมองนี้ คัดลอกข้อความด้านล่างไปวางใน Excel / Google Sheets แทน</p><textarea class="mono small" style="min-height:200px" readonly id="csvText"></textarea><button class="btn-navy btn-sm" id="copyCsv">คัดลอกทั้งหมด</button>`;
+  body.prepend(box); $('#csvText').value = data;
+  $('#closeCsv').onclick = () => box.remove();
+  $('#copyCsv').onclick = async () => { try { await navigator.clipboard.writeText(data); toast('คัดลอกแล้ว'); } catch (e) { $('#csvText').select(); toast('เลือกข้อความแล้ว กด Ctrl/Cmd+C'); } };
+}
+function renderExport(body) {
+  const tag = MG.code.replace(/[^A-Z0-9]/gi, '');
+  body.innerHTML = `<div class="card stack">
+    <div><p class="eyebrow">Management Export</p><h3>ส่งออกผลเป็น CSV (เปิดใน Excel ได้)</h3></div>
+    <p class="small muted">ไฟล์ CSV เข้ารหัส UTF-8 พร้อม BOM เพื่อให้ Excel แสดงภาษาไทยถูกต้อง ผู้เล่น ${MG.entries.length} คน · เล่นจบ ${finished().length} คน</p>
+    <div class="grid2">
+      <button class="badge" id="exTeam" style="cursor:pointer;text-align:left"><span class="emo">👥</span><div><b>Team Report</b><span>Player · Strength Profile · Mission Responses · AI Summary · Development Questions</span></div></button>
+      <button class="badge" id="exRaw" style="cursor:pointer;text-align:left"><span class="emo">🧾</span><div><b>Raw Answers</b><span>ทุกคำตอบรายข้อ พร้อม ranking, response time, timestamp</span></div></button>
+      <button class="badge" id="exAI" style="cursor:pointer;text-align:left"><span class="emo">🤖</span><div><b>AI Analysis</b><span>คะแนน 7 มิติ ระดับ และคำอธิบาย pattern รายคน</span></div></button>
+      <div class="badge"><span class="emo">👤</span><div><b>Individual Report</b><span>เปิดโปรไฟล์รายคนในแท็บ Individual แล้วกด Export</span></div></div>
+    </div>
+  </div>`;
+  $('#exTeam').onclick = () => deliverCsv(`WSQ_${tag}_team_report.csv`, csvTeam());
+  $('#exRaw').onclick = () => deliverCsv(`WSQ_${tag}_raw_answers.csv`, csvRaw());
+  $('#exAI').onclick = () => deliverCsv(`WSQ_${tag}_ai_analysis.csv`, csvAI());
+}
+/* ===================== Demo seed data ===================== */
+function demoRecords() {
+  const code = 'DEMO2026';
+  const base = new Date('2026-09-22T09:00:00+07:00').getTime();
+  const at = (min) => new Date(base + min * 60000).toISOString();
+  const ans = (t0, m1, m2, m3, m4, m5, rts, texts) => ({
+    m1: { ranking: m1, responseTime: rts[0], choiceAt: at(t0 + 1), text: texts[0], textTime: 40, createdAt: at(t0 + 2) },
+    m2: { first: m2[0], second: m2[1], responseTime: rts[1], choiceAt: at(t0 + 4), text: texts[1], textTime: 45, createdAt: at(t0 + 5) },
+    m3: { choice: m3, responseTime: rts[2], choiceAt: at(t0 + 7), text: texts[2], textTime: 50, createdAt: at(t0 + 8) },
+    m4: { choices: m4, responseTime: rts[3], choiceAt: at(t0 + 10), text: texts[3], textTime: 45, createdAt: at(t0 + 11) },
+    m5: { roles: m5, responseTime: rts[4], choiceAt: at(t0 + 13), text: texts[4], textTime: 60, createdAt: at(t0 + 14) },
+  });
+  const people = [
+    { id: 'demo-somchai', name: 'สมชาย', emp: 'PK-0101', t0: 0,
+      a: ans(0, ['D', 'B', 'E'], ['B', 'C'], 'C', ['C', 'F'], ['ps', 'pi'], [48, 55, 40, 62, 30],
+        ['ผมจะดูออเดอร์เร่งด่วนก่อน เพราะถ้ารู้ว่ามีอะไรต้องออกจริง ๆ จะจัดคนและพื้นที่ได้ตรงจุด ไม่เสียเวลาทำสิ่งที่ไม่จำเป็น',
+         'ผมจะเช็ก Stock Movement ก่อน เพราะถ้ารู้ว่าของถูกย้ายไปไหนจะลดเวลาการเดินหาของ และทำให้รู้ด้วยว่าระบบยังถูกต้องหรือไม่',
+         'ผมจะฟังเหตุผลของเขาก่อน ถ้ามีข้อมูลที่ผมไม่รู้ก็ปรับแผน แต่ถ้าไม่มีก็อธิบายว่าทำไมต้องทำแบบนี้ก่อน แล้วค่อยมาทบทวนหลังงานเสร็จ',
+         'เริ่มจากดึงข้อมูล 7 ครั้งที่ผิดมาดูว่าเกิดที่ SKU ไหน กะไหน คนไหน ถ้าเห็น pattern จะแก้ตรงจุดได้ภายในวันเดียว',
+         'ผมชอบหาว่าปัญหาเกิดจากอะไรจริง ๆ และคิดว่าจะป้องกันไม่ให้เกิดซ้ำได้อย่างไร']) },
+    { id: 'demo-nok', name: 'นก', emp: 'PK-0117', t0: 3,
+      a: ans(3, ['F', 'C', 'A'], ['A', 'D'], 'D', ['B', 'A'], ['ac', 'dt'], [12, 9, 15, 18, 20],
+        ['ลงไปช่วยแพ็กเลยค่ะ เพราะของต้องออกให้ทัน คิดนานไม่ได้ ถ้าคนไม่พอเราก็ต้องลงมือเอง',
+         'เดินไปดูที่ B-04 เลย ของอาจจะอยู่ตรงนั้นแต่วางผิดชั้น ใช้เวลาแป๊บเดียวก็รู้',
+         'ก็ทำงานของตัวเองให้เสร็จก่อน เดี๋ยวหัวหน้ากลับมาจะได้ไม่ค้าง แต่ถ้าใครถามก็บอกให้ทำที่ด่วนที่สุดก่อน',
+         'เพิ่มการเช็กซ้ำก่อนปิดกล่อง ใครแพ็กผิดก็บอกให้ระวัง ทำได้เลยวันนี้',
+         'ชอบลงมือทำมากกว่านั่งคิด และเวลาแพ็กของก็ระวังไม่ให้ผิด']) },
+    { id: 'demo-praew', name: 'แพรว', emp: 'PK-0132', t0: 5,
+      a: ans(5, ['B', 'E', 'D'], ['C', 'B'], 'E', ['E', 'C'], ['co', 'ld'], [35, 28, 22, 40, 35],
+        ['จัดคนใหม่ก่อนค่ะ เพราะพนักงานขาด 2 คน ถ้าไม่จัดใหม่ทุกอย่างจะช้าหมด แล้วค่อยแจ้งขนส่งเรื่องเวลา',
+         'ถามพี่กะก่อนก่อนเลย เพราะเขาบอกว่าอาจมีการย้าย ถามคนที่รู้ตรง ๆ เร็วกว่าเดินหาเอง แล้วค่อยเช็กระบบยืนยัน',
+         'เรียกคุยสั้น ๆ ให้ทุกคนพูด แล้วสรุปแผนร่วมกัน ถ้าไม่เห็นด้วยก็ถามว่าเขากังวลอะไร ส่วนใหญ่จะได้แผนที่ดีกว่าเดิม',
+         'นั่งคุยกับทีมแพ็กตอนเช้า 15 นาที ถามว่าตอนแพ็กผิดเกิดอะไรขึ้น ทีมมักรู้สาเหตุอยู่แล้วแค่ไม่มีใครถาม',
+         'ชอบให้ทุกคนทำงานด้วยกันได้ราบรื่น และพร้อมตัดสินใจเมื่อทีมต้องการคนนำ']) },
+    { id: 'demo-ton', name: 'ต้น', emp: 'PK-0145', t0: 8,
+      a: ans(8, ['D', 'A', 'C'], ['B', 'D'], 'C', ['B', 'C'], ['dt', 'pl'], [70, 65, 55, 75, 45],
+        ['ตรวจออเดอร์เร่งด่วนก่อน เพราะต้องรู้ว่า 20 รายการนั้นมี SKU ที่หาไม่เจออยู่ด้วยไหม ถ้ามีก็ต้องหาของก่อนอย่างอื่น',
+         'เช็กในระบบก่อนว่ามี movement ล่าสุดไหม แล้วดู location อื่นที่เคยเก็บ SKU นี้ ข้อมูลในระบบผิดบ่อยต้องยืนยันก่อน',
+         'จะขอดูข้อมูลก่อนตัดสินใจ ถ้าทีมไม่เห็นด้วยก็เอาข้อมูลมาดูด้วยกันว่าแบบไหนเสี่ยงน้อยกว่า',
+         'ดึงรายการที่ผิดทั้ง 7 ครั้งมาเทียบ ดู SKU ที่หน้าตาคล้ายกัน แล้วเพิ่มจุดตรวจสอบตรงที่ผิดบ่อย',
+         'ชอบตรวจสอบให้แน่ใจก่อน และวางแผนล่วงหน้าไม่ให้พลาด']) },
+    { id: 'demo-fah', name: 'ฟ้า', emp: 'PK-0160', t0: 10,
+      a: ans(10, ['E', 'B', 'C'], ['B', 'C'], 'B', ['F', 'D'], ['pi', 'ld'], [30, 25, 18, 35, 28],
+        ['ติดต่อขนส่งก่อน เพราะถ้าเลื่อนเวลารับได้ 30 นาที ทุกปัญหาอื่นจะมีเวลาแก้มากขึ้น เป็นตัวปลดล็อกของทั้งวัน',
+         'เช็กระบบก่อน เพราะถ้าระบบกับของจริงไม่ตรงกัน แสดงว่ากระบวนการย้ายของมีช่องโหว่ ต้องแก้ที่ต้นทางไม่ใช่แค่หาของให้เจอ',
+         'แบ่งงานเลย เพราะรอไม่ได้ ถ้าใครไม่เห็นด้วยก็ให้ลองทำตามแผนก่อน 10 นาทีแล้ววัดผล ถ้าไม่ดีก็เปลี่ยน',
+         'ทดลองเปลี่ยนวิธีจัดวาง SKU ที่คล้ายกันให้ห่างกันในโซนเดียวก่อน แล้ววัดว่าวันนั้นผิดลดลงไหม',
+         'ชอบคิดว่าระบบจะดีขึ้นได้อย่างไร และไม่กลัวที่จะตัดสินใจลองของใหม่']) },
+    { id: 'demo-beam', name: 'บีม', emp: 'PK-0172', t0: 14, playing: 3,
+      a: ans(14, ['C', 'F', 'D'], ['D', 'A'], null, null, null, [20, 22, 0, 0, 0],
+        ['เคลียร์พื้นที่ Packing ก่อน เพราะถ้าพื้นที่เต็มทุกคนจะทำงานต่อไม่ได้เลย',
+         'ดู location ข้าง ๆ ก่อน ส่วนใหญ่ของจะวางผิดช่องอยู่ไม่ไกล', '', '', '']) },
+  ];
+  const sessions = { [code]: { name: 'Warehouse Team Q4 (Demo)', code, status: 'open', createdAt: at(-30), managementId: 'demo', closedAt: null, insight: null } };
+  const players = {};
+  people.forEach(p => {
+    let run;
+    if (p.playing) {
+      const answers = { m1: p.a.m1, m2: p.a.m2 };
+      run = { name: p.name, employeeCode: p.emp, sessionName: sessions[code].name, status: 'playing', mission: 3, answers, joinedAt: at(p.t0), startedAt: at(p.t0), completedAt: null, profile: null, ai: null, lastSeen: at(p.t0 + 6) };
+    } else {
+      const profile = buildProfile(p.a); profile.baseScores = { ...profile.scores };
+      run = { name: p.name, employeeCode: p.emp, sessionName: sessions[code].name, status: 'finished', mission: 6, answers: p.a, joinedAt: at(p.t0), startedAt: at(p.t0), completedAt: at(p.t0 + 15), profile, ai: rulesSummary(p.a, profile), lastSeen: at(p.t0 + 15) };
+    }
+    players[p.id] = { name: p.name, employeeCode: p.emp, updatedAt: at(p.t0 + 15), sessions: { [code]: run } };
+  });
+  return { sessions, players };
+}
+function seedDemoIntoMemory() {
+  if (MEM.docs.size) return;
+  const d = demoRecords();
+  Object.entries(d.sessions).forEach(([k, v]) => MEM.docs.set('sessions/' + k, v));
+  Object.entries(d.players).forEach(([k, v]) => MEM.docs.set('players/' + k, v));
+}
+
+/* ===================== Boot ===================== */
+(async function main() {
+  const start = () => { route(); };
+  window.claude?.hot?.ready ? window.claude.hot.ready(start) : start();
+  await bootCaps();
+})();
+</script>
+
+</body></html>
